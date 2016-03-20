@@ -2,12 +2,9 @@ package framework;
 
 import actionsPackage.IActionAtInsert;
 import actionsPackage.StringCoding;
-import jdk.nashorn.internal.parser.Token;
 import mapPackage.IMapFactory;
 import mapPackage.TreeMapFactory;
-import sun.rmi.runtime.Log;
 import triePackage.ITrie;
-import triePackage.ITrieReference;
 import triePackage.Trie;
 
 import java.io.BufferedReader;
@@ -36,8 +33,9 @@ public class SimpleLexer implements ILexer {
         //this.tokenToString = new MapTokenToString(); decoding
     }
 
-    @Override
     public IToken getNextToken() throws IOException {
+        return null;
+        /*
         Log.println(Log.URGENT, "--> next token");
         ITrieReference ref = null;
         IToken result = null;
@@ -71,9 +69,9 @@ public class SimpleLexer implements ILexer {
         while (!foundToken && !noMoreToken);
         Log.println(Log.URGENT, "<-- result token: " + result);
         return result;
+        */
     }
 
-    @Override
     public String decode(IToken tk) throws UnsupportedOperationException {
         //@FIXME
         throw new UnsupportedOperationException("Not yet implemented.");

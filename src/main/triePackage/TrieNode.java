@@ -14,8 +14,7 @@ public class TrieNode implements ITrieNode {
     IMapFactory mapFactory;
     PartialKeyType ingoingEdge;
     Map<PartialKeyType, ITrieNode> outgoingEdgeMap;
-    
-    @Override
+
     public ITrieReference recursiveInsert(Iterator key, IActionAtInsert value) {
         return null;
     }
