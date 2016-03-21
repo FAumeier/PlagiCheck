@@ -19,20 +19,20 @@ public class StringCodingTest {
     /** Should return given previous value */
     @Test
     public void shouldReturnPrevious() {
-        assertThat(new StringCoding().actionAtKeyFound(new Integer(4711))).isEqualTo(new Integer(4711));
+        assertThat(new StringCoding().actionAtKeyFound(4711)).isEqualTo(4711);
     }
 
     /** Should return next number */
     @Test
     public void shouldReturnNextNumber() {
         StringCoding sut = new StringCoding();
-        assertThat(sut.actionAtKeyNotFound()).isEqualTo(new Integer(0));
-        assertThat(sut.actionAtKeyNotFound()).isEqualTo(new Integer(1));
-        assertThat(sut.actionAtKeyNotFound()).isEqualTo(new Integer(2));
+        assertThat(sut.actionAtKeyNotFound()).isEqualTo(0);
+        assertThat(sut.actionAtKeyNotFound()).isEqualTo(1);
+        assertThat(sut.actionAtKeyNotFound()).isEqualTo(2);
         sut = new StringCoding(4711);
-        assertThat(sut.actionAtKeyNotFound()).isEqualTo(new Integer(4711));
-        assertThat(sut.actionAtKeyNotFound()).isEqualTo(new Integer(4712));
-        assertThat(sut.actionAtKeyNotFound()).isEqualTo(new Integer(4713));
+        assertThat(sut.actionAtKeyNotFound()).isEqualTo(4711);
+        assertThat(sut.actionAtKeyNotFound()).isEqualTo(4712);
+        assertThat(sut.actionAtKeyNotFound()).isEqualTo(4713);
     }
 
 
