@@ -35,5 +35,20 @@ public class StringCodingTest {
         assertThat(sut.actionAtKeyNotFound()).isEqualTo(4713);
     }
 
+    /** Should return next free number */
+    @Test
+    public void shouldReturnNextFreeNumber() {
+        StringCoding sut = new StringCoding();
+        sut.actionAtKeyNotFound();
+        sut.actionAtKeyNotFound();
+        sut.actionAtKeyNotFound();
+        assertThat(sut.getActualValue()).isEqualTo(3);
+        sut = new StringCoding(4711);
+        sut.actionAtKeyNotFound();
+        sut.actionAtKeyNotFound();
+        sut.actionAtKeyNotFound();
+        assertThat(sut.getActualValue()).isEqualTo(4714);
+    }
+
 
 }

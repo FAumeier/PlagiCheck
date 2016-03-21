@@ -4,7 +4,7 @@ package actionsPackage;
  * Created by Matthias on 19.03.2016.
  */
 public class StringCoding implements IActionAtInsert {
-    private int counter = 0;    // Counts words in dictionary
+    private int counter = 0;    // Counts words in dictionary, counter identifies next available number
 
     public StringCoding(int start) {
         counter = start;
