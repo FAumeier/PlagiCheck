@@ -38,6 +38,6 @@ public class PartialKeyTypeTest {
     /** Should print toString correctly */
     @Test
     public void shouldPrintToString() {
-        assertThat(new PartialKeyType('X').toString()).isEqualTo("PartialKeyType{key=X}");
+        assertThat(new PartialKeyType('X').toString()).isEqualTo("X");
     }
 }

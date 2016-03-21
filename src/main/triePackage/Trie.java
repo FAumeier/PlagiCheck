@@ -29,6 +29,10 @@ public class Trie implements ITrie {
         return insert(iter, value);
     }
 
+    @Override
+    public String toString() {
+        return root.toString();
+    }
 
     /**
      * Iterator for String.

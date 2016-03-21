@@ -23,8 +23,12 @@ public class TrieTest {
         ITrieReference alfonsRef = trie.insert("alfons", stringCoding);
         //assertThat(alfonsRef.getFound()).isFalse();
         ITrieReference alfRef2 = trie.insert("alf", stringCoding);
-        assertThat(alfRef2.getFound()).isTrue();
+        //assertThat(alfRef2.getFound()).isTrue();
+        ITrieReference alfphabetRef = trie.insert("alphabet", stringCoding);
+        trie.insert("all", stringCoding);
+        trie.insert("alles", stringCoding);
 
+        System.out.println(trie);
     }
 
     /** Should get correct iterator */

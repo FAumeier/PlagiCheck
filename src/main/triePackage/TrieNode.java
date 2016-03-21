@@ -14,7 +14,18 @@ public class TrieNode implements ITrieNode {
     private final IMapFactory mapFactory;   // MapFactory given from parent
     private Comparable ingoingEdge;         // Edge which was the enty point to this node
     private final Map<Comparable, ITrieNode> outgoingEdgeMap;   // Outgoing Edges
-    private Integer wordKey = null;
+
+    private Integer keyNodeValue = null;
+    private boolean isKeyNode = false;
+
+    @Override
+    public boolean isKeyNode() {
+        return isKeyNode;
+    }
+    @Override
+    public void setKeyNode() {
+        isKeyNode = true;
+    }
 
     public TrieNode(ITrieNode parent, IMapFactory mapFactory, Comparable ingoingEdge) {
         this.parent = parent;
@@ -47,11 +58,11 @@ public class TrieNode implements ITrieNode {
 
         if (correspondingNode != null) {
             if (found) {
-                correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getWordKey());
+                correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getKeyNodeValue());
             }
             else {
-                wordKey = (int) value.actionAtKeyNotFound();
-                correspondingValue = wordKey;
+                keyNodeValue = (int) value.actionAtKeyNotFound();
+                correspondingValue = keyNodeValue;
             }
             // Return TrieReference according to findings
             return new TrieReference(found, correspondingValue, correspondingNode);
@@ -59,8 +70,31 @@ public class TrieNode implements ITrieNode {
         return null;
     }
 
+    public int getKeyNodeValue() {
+        return keyNodeValue;
+    }
+
     @Override
-    public int getWordKey() {
-        return wordKey;
+    public String toString() {
+        return toString(0);
+    }
+
+    public String toString(int offset) {
+        String msg = "";
+        for (Map.Entry<Comparable, ITrieNode> entry : outgoingEdgeMap.entrySet()) {
+            // Add offset as points
+            for (int i = 0; i < offset; i++) {
+                msg += ".";
+            }
+            //if (isKeyNode) {
+                msg += entry.getKey() + " |-> " + keyNodeValue + "\n";
+            //}
+            //else {
+            //    msg += entry.getKey() + "\n";
+            //}
+            TrieNode next = (TrieNode) entry.getValue();
+            msg += next.toString(offset + 1);
+        }
+        return msg;
     }
 }

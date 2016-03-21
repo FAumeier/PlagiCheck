@@ -22,6 +22,6 @@ public class PartialKeyType implements Comparable {
 
     @Override
     public String toString() {
-        return "PartialKeyType{" + "key=" + (char)key +'}';
+        return "" + (char)key;
     }
 }
