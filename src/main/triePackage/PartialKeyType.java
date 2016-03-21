@@ -19,4 +19,9 @@ public class PartialKeyType implements Comparable {
         PartialKeyType otherKey = (PartialKeyType) other;
         return this.key - otherKey.getKey();
     }
+
+    @Override
+    public String toString() {
+        return "PartialKeyType{" + "key=" + (char)key +'}';
+    }
 }

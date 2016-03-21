@@ -1,5 +1,7 @@
 package mapPackage;
 
+import triePackage.ITrieNode;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -9,6 +11,6 @@ import java.util.TreeMap;
 public class TreeMapFactory implements IMapFactory {
     @Override
     public Map create() {
-        return (Map)new TreeMap();
+        return new TreeMap<Comparable, ITrieNode>();
     }
 }

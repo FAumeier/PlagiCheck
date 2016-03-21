@@ -4,6 +4,7 @@ import actionsPackage.IActionAtInsert;
 import mapPackage.IMapFactory;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -14,16 +15,52 @@ public class Trie implements ITrie {
 
     public Trie(IMapFactory mapFactory) {
         this.mapFactory = mapFactory;
-
+        root = new TrieNode(null, mapFactory, 0);
     }
 
     @Override
     public ITrieReference insert(Iterator key, IActionAtInsert value) {
-        return null;
+        return root.recursiveInsert(key, value);
     }
 
     @Override
     public ITrieReference insert(String str, IActionAtInsert value) {
-        return null;
+        Iterator<Character> iter = stringIterator(str);
+        return insert(iter, value);
+    }
+
+
+    /**
+     * Iterator for String.
+     *
+     * @param string String to get Iterator for.
+     * @return Iterator for given String.
+     */
+    public static Iterator<Character> stringIterator(final String string) {
+        // Ensure the error is found as soon as possible.
+        if (string == null)
+            throw new NullPointerException();
+
+        return new Iterator<Character>() {
+            private int index = 0;
+
+            public boolean hasNext() {
+                return index < string.length();
+            }
+
+            public Character next() {
+      /*
+       * Throw NoSuchElementException as defined by the Iterator contract,
+       * not IndexOutOfBoundsException.
+       */
+                if (!hasNext())
+                    throw new NoSuchElementException();
+                return string.charAt(index++);
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 }
