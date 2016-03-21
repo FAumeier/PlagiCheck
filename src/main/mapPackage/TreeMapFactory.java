@@ -1,6 +1,7 @@
 package mapPackage;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -8,6 +9,6 @@ import java.util.Map;
 public class TreeMapFactory implements IMapFactory {
     @Override
     public Map create() {
-        return (Map)new TreeMapFactory();
+        return (Map)new TreeMap();
     }
 }
