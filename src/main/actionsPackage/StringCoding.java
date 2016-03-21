@@ -30,7 +30,7 @@ public class StringCoding implements IActionAtInsert {
      */
     @Override
     public Object actionAtKeyNotFound() {
-        return new Integer(counter++);
+        return counter++;
     }
 
     public int getActualValue() {

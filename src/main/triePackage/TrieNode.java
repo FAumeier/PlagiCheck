@@ -13,7 +13,13 @@ public class TrieNode implements ITrieNode {
     ITrieNode parent;
     IMapFactory mapFactory;
     PartialKeyType ingoingEdge;
-    Map<PartialKeyType, ITrieNode> outgoingEdgeMap;
+    Map<Comparable, ITrieNode> outgoingEdgeMap;
+
+    public TrieNode(ITrieNode parent, IMapFactory mapFactory) {
+        this.parent = parent;
+        this.mapFactory = mapFactory;
+
+    }
 
     public ITrieReference recursiveInsert(Iterator key, IActionAtInsert value) {
         return null;
