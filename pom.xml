@@ -19,44 +19,7 @@
             </plugin>
         </plugins>
     </build>
-
     <packaging>jar</packaging>
-
-    <developers>
-        <developer>
-            <name>Matthias Strobl</name>
-            <id>MStrobl</id>
-            <email>strobl1@hm.edu</email>
-        </developer>
-    </developers>
-
-    <properties>
-        <source.encoding>UTF-8</source.encoding>
-        <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-
-        <!-- Project Dependencies Configuration -->
-        <findbugs.annotations>3.0.0</findbugs.annotations>
-        <guava.version>18.0</guava.version>
-        <commons.lang.version>3.3.2</commons.lang.version>
-        <commons.io.version>2.4</commons.io.version>
-        <junit.version>4.12</junit.version>
-        <mockito.version>1.10.19</mockito.version>
-        <assertj.version>3.3.0</assertj.version>
-
-        <!-- Maven Plug-ins Configuration -->
-        <site.maven.plugin>3.4</site.maven.plugin>
-        <compiler.maven.plugin>3.2</compiler.maven.plugin>
-        <resources.maven.plugin>2.7</resources.maven.plugin>
-        <buildhelper.maven.plugin>1.9.1</buildhelper.maven.plugin>
-        <surefire.maven.plugin>2.18.1</surefire.maven.plugin>
-        <pmd.maven.plugin>3.4</pmd.maven.plugin>
-        <checkstyle.maven.plugin>2.15</checkstyle.maven.plugin>
-        <findbugs.maven.plugin>3.0.0</findbugs.maven.plugin>
-        <cobertura.maven.plugin>2.7</cobertura.maven.plugin>
-        <projectinfo.maven.plugin>2.8</projectinfo.maven.plugin>
-        <jxr.maven.plugin>2.5</jxr.maven.plugin>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -66,35 +29,29 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${findbugs.annotations}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons.io.version}</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${mockito.version}</version>
-        </dependency>
     </dependencies>
 
+    <properties>
+        <source.encoding>UTF-8</source.encoding>
+        <java.version>1.8</java.version>
+        <junit.version>4.12</junit.version>
+        <assertj.version>3.3.0</assertj.version>
+    </properties>
+
+    <developers>
+        <developer>
+            <name>Matthias Strobl</name>
+            <id>MStrobl</id>
+            <email>strobl1@hm.edu</email>
+        </developer>
+        <developer>
+            <name>Florian Aumeier</name>
+            <id>FAumeier</id>
+            <email>aumeier@protonmail.com</email>
+        </developer>
+    </developers>
 </project>

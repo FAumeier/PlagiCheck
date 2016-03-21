@@ -1,10 +1,10 @@
 package triePackage;
 
-import actionsPackage.IActionAtInsert;
-import mapPackage.IMapFactory;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import actionsPackage.IActionAtInsert;
+import mapPackage.IMapFactory;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -15,7 +15,7 @@ public class Trie implements ITrie {
 
     public Trie(IMapFactory mapFactory) {
         this.mapFactory = mapFactory;
-        root = new TrieNode(null, mapFactory, 0);
+        root = new TrieNode(mapFactory);
     }
 
     @Override

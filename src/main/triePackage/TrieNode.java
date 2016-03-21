@@ -1,10 +1,10 @@
 package triePackage;
 
-import actionsPackage.IActionAtInsert;
-import mapPackage.IMapFactory;
-
 import java.util.Iterator;
 import java.util.Map;
+
+import actionsPackage.IActionAtInsert;
+import mapPackage.IMapFactory;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -12,7 +12,7 @@ import java.util.Map;
 public class TrieNode implements ITrieNode {
     private final ITrieNode parent;         // Parent of this node
     private final IMapFactory mapFactory;   // MapFactory given from parent
-    private Comparable ingoingEdge;         // Edge which was the enty point to this node
+    private Comparable ingoingEdge;         // Edge which was the entry point to this node
     private final Map<Comparable, ITrieNode> outgoingEdgeMap;   // Outgoing Edges
 
     private Integer keyNodeValue = null;
@@ -32,6 +32,16 @@ public class TrieNode implements ITrieNode {
         this.mapFactory = mapFactory;
         this.ingoingEdge = ingoingEdge;
         outgoingEdgeMap = mapFactory.create();
+    }
+
+    /**
+     * Root node constructor
+     * @param mapFactory
+     */
+    public TrieNode(IMapFactory mapFactory) {
+        this.mapFactory = mapFactory;
+        outgoingEdgeMap = mapFactory.create();
+        parent = null;
     }
 
     public ITrieReference recursiveInsert(Iterator key, IActionAtInsert value) {
