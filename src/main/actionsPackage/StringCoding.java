@@ -9,6 +9,9 @@ public class StringCoding implements IActionAtInsert {
     public StringCoding(int start) {
         counter = start;
     }
+    public StringCoding() {
+        this(0);
+    }
 
     /**
      * Does nothing and returns given argument
