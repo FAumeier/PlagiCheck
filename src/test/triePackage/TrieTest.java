@@ -19,11 +19,11 @@ public class TrieTest {
         ITrie trie = new Trie(new TreeMapFactory());
         IActionAtInsert stringCoding = new StringCoding();
         ITrieReference alfRef = trie.insert("alf", stringCoding);
-        //assertThat(alfRef.getFound()).isFalse();
+        assertThat(alfRef.getFound()).isFalse();
         ITrieReference alfonsRef = trie.insert("alfons", stringCoding);
-        //assertThat(alfonsRef.getFound()).isFalse();
+        assertThat(alfonsRef.getFound()).isFalse();
         ITrieReference alfRef2 = trie.insert("alf", stringCoding);
-        //assertThat(alfRef2.getFound()).isTrue();
+        assertThat(alfRef2.getFound()).isTrue();
         ITrieReference alfphabetRef = trie.insert("alphabet", stringCoding);
         trie.insert("all", stringCoding);
         trie.insert("alles", stringCoding);

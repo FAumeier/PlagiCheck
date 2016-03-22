@@ -66,7 +66,7 @@ public class TrieNode implements ITrieNode {
                 if (!key.hasNext()) {
                     correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getKeyNodeValue());
                     correspondingNode.setKeyNodeValue(correspondingValue);
-                    correspondingNode.setKeyNode();
+                    setKeyNode();
                     keyNodeRef = new TrieReference(true, correspondingValue, correspondingNode);
                 }
                 else if (keyNodeRef == null) {
@@ -82,7 +82,7 @@ public class TrieNode implements ITrieNode {
                     keyNodeValue = (int) value.actionAtKeyNotFound();
                     correspondingValue = keyNodeValue;
                     correspondingNode.setKeyNodeValue(correspondingValue);
-                    correspondingNode.setKeyNode();
+                    setKeyNode();
                     keyNodeRef = new TrieReference(false, correspondingValue, correspondingNode);
                 }
                 else if (keyNodeRef == null) {
