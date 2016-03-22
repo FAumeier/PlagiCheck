@@ -13,7 +13,7 @@ import mapPackage.IMapFactory;
  * Created by Matthias on 19.03.2016.
  */
 public class TrieNode implements ITrieNode {
-    final static Logger LOG = LogManager.getLogger(TrieNode.class.getName()); //Use for example: LOG.debug("any string");
+    static final Logger LOG = LogManager.getLogger(TrieNode.class.getName()); //Use for example: LOG.debug("any string");
 
     private final ITrieNode parent;         // Parent of this node
     private final IMapFactory mapFactory;   // MapFactory given from parent
@@ -91,6 +91,7 @@ public class TrieNode implements ITrieNode {
                     correspondingNode.setKeyNodeValue(correspondingValue);
                     correspondingNode.setKeyNode();
                     keyNodeRef = new TrieReference(false, correspondingValue, correspondingNode);
+
                 }
                 else if (keyNodeRef == null) {
                     keyNodeRef = correspondingNode.recursiveInsert(key, value);
@@ -109,21 +110,23 @@ public class TrieNode implements ITrieNode {
     }
 
     public String toString(int offset) {
+        StringBuffer stringBuffer = new StringBuffer();
         String msg = "";
         for (Map.Entry<Comparable, ITrieNode> entry : outgoingEdgeMap.entrySet()) {
             // Add offset as points
             for (int i = 0; i < offset; i++) {
-                msg += ".";
+                stringBuffer.append(".");
             }
             if (entry.getValue().isKeyNode()) {
-                msg += entry.getKey() + " |-> " + keyNodeValue + "\n";
+                stringBuffer.append(entry.getKey() + " |-> " + keyNodeValue + "\n");
             }
             else {
-                msg += entry.getKey() + "\n";
+                stringBuffer.append(entry.getKey() + "\n");
             }
             TrieNode next = (TrieNode) entry.getValue();
-            msg += next.toString(offset + 1);
+            stringBuffer.append(next.toString(offset + 1));
         }
+        msg = stringBuffer.toString();
         return msg;
     }
 }

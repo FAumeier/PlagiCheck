@@ -16,8 +16,8 @@ public class AlignmentController {
 
     public void run() throws Exception {
         // Read first file
-        InputStream istreamOriginal = new FileInputStream(original);
-        Reader readerOriginal = new InputStreamReader(istreamOriginal);
+        InputStream isStreamOriginal = new FileInputStream(original);
+        Reader readerOriginal = new InputStreamReader(isStreamOriginal); //FIXME: Bug: Found a call to a method which will perform a byte to String (or String to byte) conversion, and will assume that the default platform encoding is suitable. This will cause the application behaviour to vary between platforms. Use an alternative API and specify a charset name or Charset object explicitly.
         BufferedReader inputOriginal = new BufferedReader(readerOriginal);
 
         //@TODO: Zweites File einlesen
