@@ -1,5 +1,9 @@
 package framework;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
 import actionsPackage.IActionAtInsert;
 import actionsPackage.StringCoding;
 import mapPackage.IMapFactory;
@@ -7,17 +11,13 @@ import mapPackage.TreeMapFactory;
 import triePackage.ITrie;
 import triePackage.Trie;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.StringTokenizer;
-
 /**
  * Created by Matthias on 19.03.2016.
  */
 public class SimpleLexer implements ILexer {
     final private BufferedReader reader;
     final private IMapFactory mapFactory = new TreeMapFactory();    // DIC
-    final private IActionAtInsert action = new StringCoding(4711);  // DIC
+    final private IActionAtInsert action = new StringCoding();  // DIC
     final private ITrie trie;                                       // DIC
     //final private MapTokenToString tokenToString; decoding
     private String line;

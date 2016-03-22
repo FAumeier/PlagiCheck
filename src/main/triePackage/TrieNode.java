@@ -1,15 +1,20 @@
 package triePackage;
 
-import actionsPackage.IActionAtInsert;
-import mapPackage.IMapFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.Map;
+
+import actionsPackage.IActionAtInsert;
+import mapPackage.IMapFactory;
 
 /**
  * Created by Matthias on 19.03.2016.
  */
 public class TrieNode implements ITrieNode {
+    final static Logger LOG = LogManager.getLogger(TrieNode.class.getName()); //Use for example: LOG.debug("any string");
+
     private final ITrieNode parent;         // Parent of this node
     private final IMapFactory mapFactory;   // MapFactory given from parent
     private Comparable ingoingEdge;         // Edge which was the entry point to this node
@@ -40,6 +45,7 @@ public class TrieNode implements ITrieNode {
         this.mapFactory = mapFactory;
         this.ingoingEdge = ingoingEdge;
         outgoingEdgeMap = mapFactory.create();
+        LOG.debug("New TrieNode created");
     }
 
     /**
@@ -50,6 +56,7 @@ public class TrieNode implements ITrieNode {
         this.mapFactory = mapFactory;
         outgoingEdgeMap = mapFactory.create();
         parent = null;
+        LOG.debug("New Root TrieNode created");
     }
 
     public ITrieReference recursiveInsert(Iterator key, IActionAtInsert value) {

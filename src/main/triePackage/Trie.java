@@ -1,21 +1,30 @@
 package triePackage;
 
-import actionsPackage.IActionAtInsert;
-import mapPackage.IMapFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import actionsPackage.IActionAtInsert;
+import mapPackage.IMapFactory;
 
 /**
  * Created by Matthias on 19.03.2016.
  */
 public class Trie implements ITrie {
+    /**
+     * Logger
+     */
+    final static Logger LOG = LogManager.getLogger(Trie.class.getName()); //Use for example: LOG.debug("any string");
+
     ITrieNode root;
     IMapFactory mapFactory;
 
     public Trie(IMapFactory mapFactory) {
         this.mapFactory = mapFactory;
         root = new TrieNode(mapFactory);
+        LOG.debug("New Trie created");
     }
 
     @Override

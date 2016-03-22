@@ -1,8 +1,6 @@
 package framework;
 
 
-import java.io.*;
-
 /**
  * Created by Matthias on 18.03.2016.
  */
@@ -13,7 +11,7 @@ public class PlagiCheck {
             controller.run();
         }
         else {
-            throw new Exception("Wir erwarten den Namen des Originasl und den Namen des Plagiats");
+            throw new Exception("Wir erwarten den Namen des Originals und den Namen des Plagiats");
         }
     }
 }
