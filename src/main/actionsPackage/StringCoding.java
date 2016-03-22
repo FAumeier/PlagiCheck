@@ -13,6 +13,8 @@ public class StringCoding implements IActionAtInsert {
         this(0);
     }
 
+    //@TODO: Implement StringCoding as Singleton
+
     /**
      * Does nothing and returns given argument
      * @param previous the given value

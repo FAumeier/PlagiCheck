@@ -18,15 +18,23 @@ public class TrieTest {
     public void testTrie() {
         ITrie trie = new Trie(new TreeMapFactory());
         IActionAtInsert stringCoding = new StringCoding();
-        ITrieReference alfRef = trie.insert("alf", stringCoding);
-        assertThat(alfRef.getFound()).isFalse();
-        ITrieReference alfonsRef = trie.insert("alfons", stringCoding);
-        assertThat(alfonsRef.getFound()).isFalse();
-        ITrieReference alfRef2 = trie.insert("alf", stringCoding);
-        assertThat(alfRef2.getFound()).isTrue();
-        ITrieReference alfphabetRef = trie.insert("alphabet", stringCoding);
-        trie.insert("all", stringCoding);
-        trie.insert("alles", stringCoding);
+
+        ITrieReference sut1 = trie.insert("alf", stringCoding);
+        assertThat(sut1.getFound()).isFalse();
+        assertThat(sut1.getValue()).isEqualTo(0);
+        ITrieReference sut2 = trie.insert("Alf", stringCoding);
+        assertThat(sut2.getFound()).isFalse();
+        assertThat(sut2.getValue()).isEqualTo(1);
+        ITrieReference sut3 = trie.insert("Alfons", stringCoding);
+        assertThat(sut3.getFound()).isFalse();
+        assertThat(sut3.getValue()).isEqualTo(2);
+        ITrieReference sut4 = trie.insert("Alphabet", stringCoding);
+        assertThat(sut4.getFound()).isFalse();
+        assertThat(sut4.getValue()).isEqualTo(3);
+        ITrieReference sut5 = trie.insert("Alf", stringCoding);
+        assertThat(sut5.getFound()).isTrue();
+        assertThat(sut5.getValue()).isEqualTo(1);
+
 
         System.out.println(trie);
     }
