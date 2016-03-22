@@ -10,6 +10,7 @@ import java.util.Iterator;
 public interface ITrieNode {
     ITrieReference recursiveInsert(Iterator key, IActionAtInsert value);
     int getKeyNodeValue();
+    void setKeyNodeValue(int value);
     boolean isKeyNode();
     void setKeyNode();
 }

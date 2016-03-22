@@ -1,10 +1,10 @@
 package triePackage;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import actionsPackage.IActionAtInsert;
 import mapPackage.IMapFactory;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -26,6 +26,14 @@ public class TrieNode implements ITrieNode {
     public void setKeyNode() {
         isKeyNode = true;
     }
+    @Override
+    public int getKeyNodeValue() {
+        return keyNodeValue;
+    }
+    @Override
+    public void setKeyNodeValue(int value) {
+        keyNodeValue = value;
+    }
 
     public TrieNode(ITrieNode parent, IMapFactory mapFactory, Comparable ingoingEdge) {
         this.parent = parent;
@@ -45,43 +53,47 @@ public class TrieNode implements ITrieNode {
     }
 
     public ITrieReference recursiveInsert(Iterator key, IActionAtInsert value) {
-        boolean found = false;
         ITrieNode correspondingNode = null;
         int correspondingValue;
+
+        ITrieReference keyNodeRef = null;
+
         while (key.hasNext()) {
             Comparable thisKey = new PartialKeyType((char)key.next());
             if (outgoingEdgeMap.containsKey(thisKey)) {
                 // Character found
-                found = true;
                 correspondingNode = outgoingEdgeMap.get(thisKey);
-                correspondingNode.recursiveInsert(key, value);
+                if (!key.hasNext()) {
+                    correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getKeyNodeValue());
+                    correspondingNode.setKeyNodeValue(correspondingValue);
+                    correspondingNode.setKeyNode();
+                    keyNodeRef = new TrieReference(true, correspondingValue, correspondingNode);
+                }
+                else if (keyNodeRef == null) {
+                    keyNodeRef = correspondingNode.recursiveInsert(key, value);
+                }
             }
             else {
                 // Character not found
-                found = false;
                 Comparable newKey = thisKey;
                 correspondingNode = new TrieNode(this, mapFactory, newKey);
                 outgoingEdgeMap.put(newKey, correspondingNode);
-                correspondingNode.recursiveInsert(key, value);
+                if (!key.hasNext()) {
+                    keyNodeValue = (int) value.actionAtKeyNotFound();
+                    correspondingValue = keyNodeValue;
+                    correspondingNode.setKeyNodeValue(correspondingValue);
+                    correspondingNode.setKeyNode();
+                    keyNodeRef = new TrieReference(false, correspondingValue, correspondingNode);
+                }
+                else if (keyNodeRef == null) {
+                    keyNodeRef = correspondingNode.recursiveInsert(key, value);
+                }
             }
         }
-
-        if (correspondingNode != null) {
-            if (found) {
-                correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getKeyNodeValue());
-            }
-            else {
-                keyNodeValue = (int) value.actionAtKeyNotFound();
-                correspondingValue = keyNodeValue;
-            }
-            // Return TrieReference according to findings
-            return new TrieReference(found, correspondingValue, correspondingNode);
+        if (keyNodeRef != null) {
+            return keyNodeRef;
         }
         return null;
-    }
-
-    public int getKeyNodeValue() {
-        return keyNodeValue;
     }
 
     @Override
@@ -96,12 +108,12 @@ public class TrieNode implements ITrieNode {
             for (int i = 0; i < offset; i++) {
                 msg += ".";
             }
-            //if (isKeyNode) {
+            if (isKeyNode) {
                 msg += entry.getKey() + " |-> " + keyNodeValue + "\n";
-            //}
-            //else {
-            //    msg += entry.getKey() + "\n";
-            //}
+            }
+            else {
+                msg += entry.getKey() + "\n";
+            }
             TrieNode next = (TrieNode) entry.getValue();
             msg += next.toString(offset + 1);
         }

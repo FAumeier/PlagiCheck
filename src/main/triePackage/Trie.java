@@ -1,10 +1,10 @@
 package triePackage;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 import actionsPackage.IActionAtInsert;
 import mapPackage.IMapFactory;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Matthias on 19.03.2016.
