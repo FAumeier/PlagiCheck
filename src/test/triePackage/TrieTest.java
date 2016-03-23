@@ -1,24 +1,34 @@
 package triePackage;
 
-import actionsPackage.IActionAtInsert;
-import actionsPackage.StringCoding;
-import mapPackage.TreeMapFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
 
-import static org.assertj.core.api.Assertions.*;
+import actionsPackage.IActionAtInsert;
+import actionsPackage.StringCoding;
+import mapPackage.TreeMapFactory;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Created by Matthias on 21.03.2016.
  */
 public class TrieTest {
 
+    ITrie trie;
+    IActionAtInsert stringCoding;
+    Iterator<Character> iter;
+
+    @Before
+    public void setUp() throws Exception {
+        trie = new Trie(new TreeMapFactory());
+        stringCoding = new StringCoding();
+        iter = Trie.stringIterator("Alfons");
+    }
+
     @Test
     public void testTrie() {
-        ITrie trie = new Trie(new TreeMapFactory());
-        IActionAtInsert stringCoding = new StringCoding();
-
         ITrieReference sut1 = trie.insert("alf", stringCoding);
         assertThat(sut1.getFound()).isFalse();
         assertThat(sut1.getValue()).isEqualTo(0);
@@ -34,15 +44,12 @@ public class TrieTest {
         ITrieReference sut5 = trie.insert("Alf", stringCoding);
         assertThat(sut5.getFound()).isTrue();
         assertThat(sut5.getValue()).isEqualTo(1);
-
-
         System.out.println(trie);
     }
 
     /** Should get correct iterator */
     @Test
     public void shouldGetCorrectIterator() {
-        Iterator<Character> iter = Trie.stringIterator("Alfons");
         assertThat(iter.hasNext()).isTrue();
         assertThat(iter.next()).isEqualTo('A');
         assertThat(iter.next()).isEqualTo('l');

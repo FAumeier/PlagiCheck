@@ -1,5 +1,6 @@
 package actionsPackage;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,6 +9,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by Matthias on 21.03.2016.
  */
 public class StringCodingTest {
+    StringCoding sut;
+    @Before
+    public void setUp() throws Exception {
+        sut = new StringCoding();
+    }
 
     /** Should return "0" or given start value */
     @Test
@@ -25,7 +31,6 @@ public class StringCodingTest {
     /** Should return next number */
     @Test
     public void shouldReturnNextNumber() {
-        StringCoding sut = new StringCoding();
         assertThat(sut.actionAtKeyNotFound()).isEqualTo(0);
         assertThat(sut.actionAtKeyNotFound()).isEqualTo(1);
         assertThat(sut.actionAtKeyNotFound()).isEqualTo(2);
