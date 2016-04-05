@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 import actionsPackage.IActionAtInsert;
 import actionsPackage.StringCoding;
 import mapPackage.IMapFactory;
+import mapPackage.MapTokenToString;
 import mapPackage.TreeMapFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +25,8 @@ public class SimpleLexer implements ILexer {
     final private BufferedReader reader;
     final private IMapFactory mapFactory = new TreeMapFactory();    // DIC
     final private IActionAtInsert action = new StringCoding();  // DIC
-    final private ITrie trie;                                       // DIC
-    //final private MapTokenToString tokenToString; decoding
+    final private Trie trie;                                       // DIC
+    final private MapTokenToString tokenToString; //decoding
     private String line;
     private StringTokenizer tk = null;
 
@@ -36,28 +37,67 @@ public class SimpleLexer implements ILexer {
             tk = new StringTokenizer(line);
         }
         this.trie = new Trie(mapFactory);                           // DIC
-        //this.tokenToString = new MapTokenToString(); decoding
+        this.tokenToString = new MapTokenToString(); //decoding
     }
 
-    public IToken getNextToken() throws IOException {
-        return null;
 
+    public IToken getNextToken() throws IOException {
         LOG.debug("--> next token");
         ITrieReference ref = null;
         IToken result = null;
+        //String result = null;
         boolean foundToken = false;
         boolean noMoreToken = false;
         do {    // Invariante: Es gibt einen Tokenizer; tk != null
             // Schleife dient nur zum Lesen der Zeilen
             result = null;
             if (tk != null) {
-                if (tk.haseMoreTokens()) {
+                if (tk.hasMoreTokens()) {
                     String intermediate = tk.nextToken();
                     LOG.debug("--- next token: " + intermediate);
-                    //@TODO: Später wenn Klassencode bekannt den richtigen Trie ansteuern
+                    //@TODO: Später wenn Klassencode bekannt den richtigen Trie ansteuern / wahrscheinlich erst später notwendig?
                     ref = trie.insert(intermediate, action);        // DIC
                     //@TODO: Später Extraktion des relative Codes aus ref und bilden des Tokens aus Klassencode und Relativcode
-                    result = new Token(-1, -1); //@FIXME: Dummy!!!
+                    //result = new Token(-1, -1); //@FIXME: Dummy!!!
+                    foundToken = true;
+                }
+                else {  // Neue Zeile lesen
+                    tk = null;
+                    line = reader.readLine();
+                    if (line != null) {
+                        tk = new StringTokenizer(line);
+                    }
+                }
+            }
+            else {
+                noMoreToken = true;
+            }
+        }
+        while (!foundToken && !noMoreToken);
+        LOG.debug("<-- result token: " + result);
+        return result;
+
+    }
+
+
+    public String getNextStringToken() throws IOException {
+        LOG.debug("--> next token");
+        ITrieReference ref = null;
+        String result = null;
+        boolean foundToken = false;
+        boolean noMoreToken = false;
+        do {    // Invariante: Es gibt einen Tokenizer; tk != null
+            // Schleife dient nur zum Lesen der Zeilen
+            result = null;
+            if (tk != null) {
+                if (tk.hasMoreTokens()) {
+                    String intermediate = tk.nextToken();
+                    LOG.debug("--- next token: " + intermediate);
+                    //@TODO: Später wenn Klassencode bekannt den richtigen Trie ansteuern / wahrscheinlich erst später notwendig?
+                    ref = trie.insert(intermediate, action);        // DIC
+                    //@TODO: Später Extraktion des relative Codes aus ref und bilden des Tokens aus Klassencode und Relativcode
+                    //result = new Token(-1, -1); //@FIXME: Dummy!!!
+                    result = intermediate;
                     foundToken = true;
                 }
                 else {  // Neue Zeile lesen
@@ -79,8 +119,7 @@ public class SimpleLexer implements ILexer {
     }
 
     public String decode(IToken tk) throws UnsupportedOperationException {
-        //@FIXME
-        throw new UnsupportedOperationException("Not yet implemented.");
+        return tokenToString.get(tk);
     }
 
     @Override

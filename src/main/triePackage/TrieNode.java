@@ -109,7 +109,7 @@ public class TrieNode implements ITrieNode {
         return toString(0);
     }
 
-    public String toString(int offset) {
+    private String toString(int offset) {
         StringBuffer stringBuffer = new StringBuffer();
         String msg = "";
         for (Map.Entry<Comparable, ITrieNode> entry : outgoingEdgeMap.entrySet()) {
