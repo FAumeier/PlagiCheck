@@ -8,13 +8,19 @@ import actionsPackage.IActionAtInsert;
 import actionsPackage.StringCoding;
 import mapPackage.IMapFactory;
 import mapPackage.TreeMapFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import triePackage.ITrie;
+import triePackage.ITrieReference;
 import triePackage.Trie;
+import triePackage.TrieNode;
 
 /**
  * Created by Matthias on 19.03.2016.
  */
 public class SimpleLexer implements ILexer {
+    static final Logger LOG = LogManager.getLogger(SimpleLexer.class.getName()); //Use for example: LOG.debug("any string");
+
     final private BufferedReader reader;
     final private IMapFactory mapFactory = new TreeMapFactory();    // DIC
     final private IActionAtInsert action = new StringCoding();  // DIC
@@ -35,8 +41,8 @@ public class SimpleLexer implements ILexer {
 
     public IToken getNextToken() throws IOException {
         return null;
-        /*
-        Log.println(Log.URGENT, "--> next token");
+
+        LOG.debug("--> next token");
         ITrieReference ref = null;
         IToken result = null;
         boolean foundToken = false;
@@ -47,7 +53,7 @@ public class SimpleLexer implements ILexer {
             if (tk != null) {
                 if (tk.haseMoreTokens()) {
                     String intermediate = tk.nextToken();
-                    Log.println(Log.URGENT, "--- next token: " + intermediate);
+                    LOG.debug("--- next token: " + intermediate);
                     //@TODO: Später wenn Klassencode bekannt den richtigen Trie ansteuern
                     ref = trie.insert(intermediate, action);        // DIC
                     //@TODO: Später Extraktion des relative Codes aus ref und bilden des Tokens aus Klassencode und Relativcode
@@ -67,9 +73,9 @@ public class SimpleLexer implements ILexer {
             }
         }
         while (!foundToken && !noMoreToken);
-        Log.println(Log.URGENT, "<-- result token: " + result);
+        LOG.debug("<-- result token: " + result);
         return result;
-        */
+
     }
 
     public String decode(IToken tk) throws UnsupportedOperationException {
