@@ -45,7 +45,6 @@ public class TrieNode implements ITrieNode {
         this.mapFactory = mapFactory;
         this.ingoingEdge = ingoingEdge;
         outgoingEdgeMap = mapFactory.create();
-        LOG.debug("New TrieNode created");
     }
 
     /**

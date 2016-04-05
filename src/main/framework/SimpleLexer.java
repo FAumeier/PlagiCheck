@@ -25,7 +25,7 @@ public class SimpleLexer implements ILexer {
     final private BufferedReader reader;
     final private IMapFactory mapFactory = new TreeMapFactory();    // DIC
     final private IActionAtInsert action = new StringCoding();  // DIC
-    final private Trie trie;                                       // DIC
+    final private ITrie trie;                                       // DIC
     final private MapTokenToString tokenToString; //decoding
     private String line;
     private StringTokenizer tk = null;
@@ -74,7 +74,6 @@ public class SimpleLexer implements ILexer {
             }
         }
         while (!foundToken && !noMoreToken);
-        LOG.debug("<-- result token: " + result);
         return result;
 
     }
@@ -113,7 +112,6 @@ public class SimpleLexer implements ILexer {
             }
         }
         while (!foundToken && !noMoreToken);
-        LOG.debug("<-- result token: " + result);
         return result;
 
     }

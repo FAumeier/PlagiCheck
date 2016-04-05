@@ -34,6 +34,7 @@ public class Trie implements ITrie {
 
     @Override
     public ITrieReference insert(String str, IActionAtInsert value) {
+        LOG.debug("Wird in Trie eingefügt: " + str);
         Iterator<Character> iter = stringIterator(str);
         return insert(iter, value);
     }
