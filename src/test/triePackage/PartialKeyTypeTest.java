@@ -50,14 +50,15 @@ public class PartialKeyTypeTest {
 
     @Test
     public void testEquals() {
-        assertTrue(keys[0].equals(keys[0]));
-        assertFalse(keys[0].equals(keys[1]));
-        assertTrue(keys[4].equals(keys[5]));
+        assertTrue(keys[0].equals(keys[0]));    // Same object -> equals true
+        assertFalse(keys[0].equals(keys[1]));   // Different object -> equals false
+        assertTrue(keys[4].equals(keys[5]));    // Different object, same character -> equals true
     }
 
     @Test
     public void testHashCode() {
         assertEquals('a', keys[0].hashCode());
+        assertEquals(new PartialKeyType('a').hashCode(), keys[0].hashCode());
     }
 
 

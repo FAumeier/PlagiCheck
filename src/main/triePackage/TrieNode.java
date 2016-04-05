@@ -1,13 +1,12 @@
 package triePackage;
 
+import actionsPackage.IActionAtInsert;
+import mapPackage.IMapFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.Map;
-
-import actionsPackage.IActionAtInsert;
-import mapPackage.IMapFactory;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -70,9 +69,14 @@ public class TrieNode implements ITrieNode {
                 // Character found
                 correspondingNode = outgoingEdgeMap.get(thisKey);
                 if (!key.hasNext()) {
-                    correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getKeyNodeValue());
-                    correspondingNode.setKeyNodeValue(correspondingValue);
-                    correspondingNode.setKeyNode();
+                    if (correspondingNode.isKeyNode()) {
+                        correspondingValue = (int) value.actionAtKeyFound(correspondingNode.getKeyNodeValue());
+                    }
+                    else {
+                        correspondingValue = (int) value.actionAtKeyNotFound();
+                        correspondingNode.setKeyNodeValue(correspondingValue);
+                        correspondingNode.setKeyNode();
+                    }
                     keyNodeRef = new TrieReference(true, correspondingValue, correspondingNode);
                 }
                 else if (keyNodeRef == null) {
@@ -85,12 +89,10 @@ public class TrieNode implements ITrieNode {
                 correspondingNode = new TrieNode(this, mapFactory, newKey);
                 outgoingEdgeMap.put(newKey, correspondingNode);
                 if (!key.hasNext()) {
-                    keyNodeValue = (int) value.actionAtKeyNotFound();
-                    correspondingValue = keyNodeValue;
+                    correspondingValue = (int) value.actionAtKeyNotFound();
                     correspondingNode.setKeyNodeValue(correspondingValue);
                     correspondingNode.setKeyNode();
                     keyNodeRef = new TrieReference(false, correspondingValue, correspondingNode);
-
                 }
                 else if (keyNodeRef == null) {
                     keyNodeRef = correspondingNode.recursiveInsert(key, value);
@@ -117,7 +119,7 @@ public class TrieNode implements ITrieNode {
                 stringBuffer.append(".");
             }
             if (entry.getValue().isKeyNode()) {
-                stringBuffer.append(entry.getKey() + " |-> " + keyNodeValue + "\n");
+                stringBuffer.append(entry.getKey() + " |-> " + entry.getValue().getKeyNodeValue() + "\n");
             }
             else {
                 stringBuffer.append(entry.getKey() + "\n");
