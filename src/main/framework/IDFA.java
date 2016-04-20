@@ -13,12 +13,12 @@ public interface IDFA {
     DFAStates initial();
 
     /**
-     * Tells you the state you reach with the given character symbol.
+     * Tells you the state you reach with the given character.
      * @param state your current state
-     * @param symbol your next symbol
+     * @param nextChar your next nextChar
      * @return the state you reach
      */
-    DFAStates trans(DFAStates state, int symbol);
+    DFAStates trans(DFAStates state, int nextChar);
 
     /**
      * Only the DFA knows what a final state is.

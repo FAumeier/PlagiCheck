@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests the DFA.
  */
 public class DFATest {
-    private final String testMessage = "Am 01.05.15 wissen wir,dass 1 und 1 gleich   2 ist.";
     private final DFA sut = new DFA();
 
     @Test
