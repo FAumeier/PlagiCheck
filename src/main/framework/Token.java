@@ -1,24 +1,25 @@
 package framework;
 
 /**
- * Created by Flo on 05.04.2016.
+ * Implements the IToken interface and provides class and relative code for a token.
  */
 public class Token implements IToken {
-    private final int IDENTIFIER;
-    private final int INTCONS;
-    //private static final int DATE;
-   // private static final int PMARK;
+    private final ClassCodes classCode;
+    private final int relativeCode;
 
-    public Token(int classCode, int relativeCode) {
-        IDENTIFIER = classCode;
-        INTCONS = relativeCode;
+
+    public Token(ClassCodes classCode, int relativeCode) {
+        this.classCode = classCode;
+        this.relativeCode = relativeCode;
     }
 
-    public int getClassCode() {
-        return IDENTIFIER;
+    @Override
+    public ClassCodes getClassCode() {
+        return classCode;
     }
 
+    @Override
     public int getRelativeCode() {
-        return INTCONS;
+        return relativeCode;
     }
 }

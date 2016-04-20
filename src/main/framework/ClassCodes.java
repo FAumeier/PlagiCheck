@@ -8,7 +8,8 @@ public enum ClassCodes {
     DATE(1, "Date"),
     WS(2, "Whitespace"),
     PMARK(3, "Punktuationmark"),
-    EOF(4, "End of File");
+    INTCONS(4, "Integer constant"),
+    EOF(5, "End of File");
 
     private final int id;
     private final String description;
