@@ -9,7 +9,8 @@ public enum ClassCodes {
     WS(2, "Whitespace"),
     PMARK(3, "Punktuationmark"),
     INTCONS(4, "Integer constant"),
-    EOF(5, "End of File");
+    EOF(5, "End of File"),
+    ERROR(6, "Error");
 
     private final int id;
     private final String description;
