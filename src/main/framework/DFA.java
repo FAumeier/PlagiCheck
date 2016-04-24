@@ -122,13 +122,6 @@ public class DFA implements IDFA {
                 }
             case SECOND_OF_YEAR:
                 if (Character.isDigit(nextChar)) {
-                    return THIRD_OF_YEAR;
-                }
-                else {
-                    return FAILURE;
-                }
-            case THIRD_OF_YEAR:
-                if (Character.isDigit(nextChar)) {
                     return DATE_STATE;
                 }
                 else {

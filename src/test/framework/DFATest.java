@@ -61,8 +61,7 @@ public class DFATest {
         assertThat(sut.trans(DFAStates.SECOND_OF_MONTH, '.')).isEqualTo(DFAStates.MONTH_STATE);
         assertThat(sut.trans(DFAStates.MONTH_STATE, '1')).isEqualTo(DFAStates.FIRST_OF_YEAR);
         assertThat(sut.trans(DFAStates.FIRST_OF_YEAR, '9')).isEqualTo(DFAStates.SECOND_OF_YEAR);
-        assertThat(sut.trans(DFAStates.SECOND_OF_YEAR, '9')).isEqualTo(DFAStates.THIRD_OF_YEAR);
-        assertThat(sut.trans(DFAStates.THIRD_OF_YEAR, '3')).isEqualTo(DFAStates.DATE_STATE);
+        assertThat(sut.trans(DFAStates.SECOND_OF_YEAR, '9')).isEqualTo(DFAStates.DATE_STATE);
         assertThat(sut.trans(DFAStates.DATE_STATE, ' ')).isEqualTo(DFAStates.FAILURE);
     }
 
@@ -106,6 +105,5 @@ public class DFATest {
         assertThat(sut.isFinal(DFAStates.MONTH_STATE)).isFalse();
         assertThat(sut.isFinal(DFAStates.FIRST_OF_YEAR)).isFalse();
         assertThat(sut.isFinal(DFAStates.SECOND_OF_YEAR)).isFalse();
-        assertThat(sut.isFinal(DFAStates.THIRD_OF_YEAR)).isFalse();
     }
 }
