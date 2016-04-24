@@ -17,7 +17,7 @@ public class BaseLexerTest {
 
     @Test
     public void shouldDetermineTokensCorrectly() {
-        BaseLexer sut = new BaseLexer(new PushbackReader(new StringReader(date)));
+        BaseLexer sut = new BaseLexer(new PushbackReader(new StringReader(testMessage)));
         LinkedList<IToken> tokens = new LinkedList<>();
         try {
             for (int i = 0; i < 24; i++) {

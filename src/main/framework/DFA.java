@@ -115,7 +115,7 @@ public class DFA implements IDFA {
                 }
             case FIRST_OF_YEAR:
                 if (Character.isDigit(nextChar)) {
-                    return SECOND_OF_YEAR;
+                    return DATE_STATE;
                 }
                 else {
                     return FAILURE;
