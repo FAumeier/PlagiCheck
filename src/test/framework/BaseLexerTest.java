@@ -2,6 +2,7 @@ package framework;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
 
@@ -14,5 +15,10 @@ public class BaseLexerTest {
     @Test
     public void shouldDetermineTokensCorrectly() {
         BaseLexer sut = new BaseLexer(new PushbackReader(new StringReader(testMessage)));
+        try {
+            sut.getNextToken();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

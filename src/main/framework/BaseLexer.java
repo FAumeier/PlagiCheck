@@ -52,25 +52,27 @@ public class BaseLexer implements ILexer {
 
     @Override
     public IToken getNextToken() throws IOException {
-        position = 0;
+        position = -1;
         tokenBuffer = new StringBuilder();
-        lastFinalPosition = 0;
+        lastFinalPosition = -1;
         lastFinalState = null;
         DFA dfa = new DFA();
         currentState = dfa.initial();
-        while (!dfa.isStop(currentState)) {
-            char currentChar = (char) reader.read();
-            currentState = dfa.trans(currentState, currentChar);
-            if (dfa.isStop(currentState)) {
+        while (!dfa.isStop(currentState)) { //Solange bis Fehler- oder EOF- Zustand erreicht.
+
+            if (dfa.isFinal(currentState)) {
                 lastFinalPosition = position;
                 lastFinalState = currentState;
             }
-            if (currentState == DFAStates.EOF) {
-                //end of file
-                return new Token(ClassCodes.EOF, -2);
-            } else if (currentState == DFAStates.FAILURE) {
+            char currentChar = (char) reader.read();
+            if (currentState != DFAStates.EOF) {
+                tokenBuffer.append(currentChar);
+                position++;
+            }
+            currentState = dfa.trans(currentState, currentChar);
+            if (currentState == DFAStates.FAILURE) {
                 if (lastFinalPosition > -1) {
-                    String tokenString = tokenBuffer.substring(0, lastFinalPosition); //end muss inklusive der lastfinalposition sein TODO: Check this!
+                    String tokenString = tokenBuffer.substring(0, lastFinalPosition + 1); //end muss inklusive der lastfinalposition sein TODO: Check this!
                     ITrieReference trieReference = null;
                     ClassCodes classCode = null;
                     switch (lastFinalState) {
@@ -96,11 +98,9 @@ public class BaseLexer implements ILexer {
                             break;
                     }
                     //Unread der letzten Zeichen
-                    int lengthOfTokenBuffer = position - (lastFinalPosition + 1);
-                    for (int i = lengthOfTokenBuffer; i >= 0; i++) { //TODO: Check if length is correct
-                        reader.unread(tokenBuffer.charAt(i));
-                        tokenBuffer.deleteCharAt(i);
-                    }
+                    char[] array = new char[lastFinalPosition - position]; //FIXME: The Calculation of the length is false
+                    tokenBuffer.getChars(position, lastFinalPosition + 1, array, 0);
+                    reader.unread(array);
 
                     int relativeCode = (int) trieReference.getValue();
                     return new Token(classCode, relativeCode);
@@ -108,9 +108,10 @@ public class BaseLexer implements ILexer {
                     final IToken ERROR_TOKEN = new Token(ClassCodes.ERROR, 0);
                     return ERROR_TOKEN;
                 }
-            } else {
-                tokenBuffer.append(currentChar);
-                position++;
+            }
+            if (currentState == DFAStates.EOF) {
+                //end of file
+                return new Token(ClassCodes.EOF, -2);
             }
         }
 
