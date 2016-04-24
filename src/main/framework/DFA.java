@@ -70,7 +70,7 @@ public class DFA implements IDFA {
                 }
             case FIRST_OF_DAY:
                 if (Character.isDigit(nextChar)) {
-                    return SECOND_OF_DAY;
+                    return SECOND_OF_DAY; //Laut Diagramm ist hier schon INTCONS erreicht!
                 }
                 else {
                     return FAILURE;
