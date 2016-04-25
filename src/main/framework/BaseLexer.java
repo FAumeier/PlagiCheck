@@ -8,13 +8,15 @@ import triePackage.Trie;
 
 import java.io.IOException;
 import java.io.PushbackReader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Base lexer which works with Class Codes and Relative Codes.
  */
 public class BaseLexer implements ILexer {
     private final PushbackReader reader;
-    private ITrie identifier, intcons, pmark, ws, date;
+    private Map<ClassCodes, ITrie> tries = new HashMap<>();
 
     private int position;
     private StringBuilder tokenBuffer;
@@ -24,11 +26,11 @@ public class BaseLexer implements ILexer {
 
     public BaseLexer(PushbackReader reader) {
         this.reader = reader;
-        identifier = new Trie(new TreeMapFactory(), new StringCoding());
-        intcons = new Trie(new TreeMapFactory(), new StringCoding());
-        pmark = new Trie(new TreeMapFactory(), new StringCoding());
-        ws = new Trie(new TreeMapFactory(), new StringCoding());
-        date = new Trie(new TreeMapFactory(), new StringCoding());
+        tries.put(ClassCodes.IDENTIFIER, new Trie(new TreeMapFactory(), new StringCoding()));
+        tries.put(ClassCodes.INTCONS, new Trie(new TreeMapFactory(), new StringCoding()));
+        tries.put(ClassCodes.PMARK, new Trie(new TreeMapFactory(), new StringCoding()));
+        tries.put(ClassCodes.WS, new Trie(new TreeMapFactory(), new StringCoding()));
+        tries.put(ClassCodes.DATE, new Trie(new TreeMapFactory(), new StringCoding()));
     }
     /*
     der lexer nutzt den DFA
@@ -69,31 +71,12 @@ public class BaseLexer implements ILexer {
             currentState = dfa.trans(currentState, currentChar);
             if (currentState == DFAStates.FAILURE) {
                 if (lastFinalPosition > -1) {
-                    String tokenString = tokenBuffer.substring(0, lastFinalPosition + 1); //end muss inklusive der lastfinalposition sein TODO: Check this!
-                    ITrieReference trieReference = null;
-                    ClassCodes classCode = null;
-                    switch (lastFinalState) {
-                        case IDENTIFIER:
-                            trieReference = identifier.insert(tokenString);
-                            classCode = ClassCodes.IDENTIFIER;
-                            break;
-                        case INTCONS:
-                            trieReference = intcons.insert(tokenString);
-                            classCode = ClassCodes.INTCONS;
-                            break;
-                        case PM:
-                            trieReference = pmark.insert(tokenString);
-                            classCode = ClassCodes.PMARK;
-                            break;
-                        case WS:
-                            trieReference = ws.insert(tokenString);
-                            classCode = ClassCodes.WS;
-                            break;
-                        case DATE_STATE:
-                            trieReference = date.insert(tokenString);
-                            classCode = ClassCodes.DATE;
-                            break;
-                    }
+                    // Get ClassCode for last final state
+                    ClassCodes classCode = getClassCodeFromState(lastFinalState);
+                    // Insert final identified token into corresponding trie
+                    ITrieReference trieReference = tries.get(classCode).
+                            insert(tokenBuffer.substring(0, lastFinalPosition + 1));
+
                     //Unread der letzten Zeichen
                     /*char[] temp = new char[tokenBuffer.length()]; //TODO: This a waste of Memory
                     int end = lastFinalPosition + 1;
@@ -118,10 +101,11 @@ public class BaseLexer implements ILexer {
                         }
                     }
                     reader.unread(charsToPushBack);*/
-                    reader.unread(tokenBuffer.substring(lastFinalPosition +1, tokenBuffer.length()).toCharArray());
 
-                    int relativeCode = (int) trieReference.getValue();
-                    return new Token(classCode, relativeCode);
+                    // Push back characters which have been read to far
+                    reader.unread(tokenBuffer.substring(lastFinalPosition +1, tokenBuffer.length()).toCharArray());
+                    // Create and return token
+                    return new Token(classCode, (int) trieReference.getValue());
                 } else if (lastFinalPosition == -1) {
                     final IToken ERROR_TOKEN = new Token(ClassCodes.ERROR, 0);
                     return ERROR_TOKEN;
@@ -134,6 +118,45 @@ public class BaseLexer implements ILexer {
         }
 
         return null; //TODO: maybe this is not the proper way
+    }
+
+    private ClassCodes getClassCodeFromState(DFAStates state) {
+        switch (state) {
+            case EOF:
+                return ClassCodes.ERROR;
+            case START:
+                return ClassCodes.ERROR;
+            case FAILURE:
+                return ClassCodes.ERROR;
+            case WS:
+                return ClassCodes.WS;
+            case PM:
+                return ClassCodes.PMARK;
+            case IDENTIFIER:
+                return ClassCodes.IDENTIFIER;
+            case INTCONS:
+                return ClassCodes.INTCONS;
+            case FIRST_OF_DAY:
+                return ClassCodes.INTCONS;
+            case SECOND_OF_DAY:
+                return ClassCodes.INTCONS;
+            case DAY_STATE:
+                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
+            case FIRST_OF_MONTH:
+                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
+            case SECOND_OF_MONTH:
+                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
+            case MONTH_STATE:
+                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
+            case FIRST_OF_YEAR:
+                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
+            case SECOND_OF_YEAR:
+                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
+            case DATE_STATE:
+                return ClassCodes.DATE;
+            default:
+                return ClassCodes.ERROR;
+        }
     }
 
     @Override
