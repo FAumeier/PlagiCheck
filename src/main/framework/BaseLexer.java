@@ -1,6 +1,5 @@
 package framework;
 
-import actionsPackage.IActionAtInsert;
 import actionsPackage.StringCoding;
 import mapPackage.TreeMapFactory;
 import triePackage.ITrie;
@@ -16,7 +15,6 @@ import java.io.PushbackReader;
 public class BaseLexer implements ILexer {
     private final PushbackReader reader;
     private ITrie identifier, intcons, pmark, ws, date;
-    IActionAtInsert stringCoding;
 
     private int position;
     private StringBuilder tokenBuffer;
@@ -26,12 +24,11 @@ public class BaseLexer implements ILexer {
 
     public BaseLexer(PushbackReader reader) {
         this.reader = reader;
-        identifier = new Trie(new TreeMapFactory());
-        intcons = new Trie(new TreeMapFactory());
-        pmark = new Trie(new TreeMapFactory());
-        ws = new Trie(new TreeMapFactory());
-        date = new Trie(new TreeMapFactory());
-        stringCoding = new StringCoding();
+        identifier = new Trie(new TreeMapFactory(), new StringCoding());
+        intcons = new Trie(new TreeMapFactory(), new StringCoding());
+        pmark = new Trie(new TreeMapFactory(), new StringCoding());
+        ws = new Trie(new TreeMapFactory(), new StringCoding());
+        date = new Trie(new TreeMapFactory(), new StringCoding());
     }
     /*
     der lexer nutzt den DFA
@@ -77,23 +74,23 @@ public class BaseLexer implements ILexer {
                     ClassCodes classCode = null;
                     switch (lastFinalState) {
                         case IDENTIFIER:
-                            trieReference = identifier.insert(tokenString, stringCoding);
+                            trieReference = identifier.insert(tokenString);
                             classCode = ClassCodes.IDENTIFIER;
                             break;
                         case INTCONS:
-                            trieReference = intcons.insert(tokenString, stringCoding);
+                            trieReference = intcons.insert(tokenString);
                             classCode = ClassCodes.INTCONS;
                             break;
                         case PM:
-                            trieReference = pmark.insert(tokenString, stringCoding);
+                            trieReference = pmark.insert(tokenString);
                             classCode = ClassCodes.PMARK;
                             break;
                         case WS:
-                            trieReference = ws.insert(tokenString, stringCoding);
+                            trieReference = ws.insert(tokenString);
                             classCode = ClassCodes.WS;
                             break;
                         case DATE_STATE:
-                            trieReference = date.insert(tokenString, stringCoding);
+                            trieReference = date.insert(tokenString);
                             classCode = ClassCodes.DATE;
                             break;
                     }

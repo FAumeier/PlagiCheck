@@ -1,9 +1,5 @@
 package framework;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.StringTokenizer;
-
 import actionsPackage.IActionAtInsert;
 import actionsPackage.StringCoding;
 import mapPackage.IMapFactory;
@@ -14,7 +10,10 @@ import org.apache.logging.log4j.Logger;
 import triePackage.ITrie;
 import triePackage.ITrieReference;
 import triePackage.Trie;
-import triePackage.TrieNode;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -36,7 +35,7 @@ public class SimpleLexer implements ILexer {
         if (line != null) {
             tk = new StringTokenizer(line);
         }
-        this.trie = new Trie(mapFactory);                           // DIC
+        this.trie = new Trie(mapFactory, new StringCoding());                           // DIC
         this.tokenToString = new MapTokenToString(); //decoding
     }
 

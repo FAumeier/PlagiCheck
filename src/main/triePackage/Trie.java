@@ -1,13 +1,12 @@
 package triePackage;
 
+import actionsPackage.IActionAtInsert;
+import mapPackage.IMapFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import actionsPackage.IActionAtInsert;
-import mapPackage.IMapFactory;
 
 /**
  * Created by Matthias on 19.03.2016.
@@ -21,10 +20,17 @@ public class Trie implements ITrie {
     ITrieNode root;
     IMapFactory mapFactory;
 
-    public Trie(IMapFactory mapFactory) {
+    IActionAtInsert ownActionAtInsert;
+
+    public Trie(IMapFactory mapFactory, IActionAtInsert actionAtInsert) {
         this.mapFactory = mapFactory;
         root = new TrieNode(mapFactory);
+        ownActionAtInsert = actionAtInsert;
         LOG.debug("New Trie created");
+    }
+
+    public Trie(IMapFactory mapFactory) {
+        this(mapFactory, null);
     }
 
     @Override
@@ -37,6 +43,15 @@ public class Trie implements ITrie {
         LOG.debug("Wird in Trie eingefügt: " + str);
         Iterator<Character> iter = stringIterator(str);
         return insert(iter, value);
+    }
+
+    @Override
+    public ITrieReference insert(String str) throws IllegalStateException {
+        if (ownActionAtInsert == null) {
+            throw new IllegalStateException(
+                    "No own ActionAtInsert injected, can´t use insert-method without ActionAtInsert.");
+        }
+        return insert(str, ownActionAtInsert);
     }
 
     @Override

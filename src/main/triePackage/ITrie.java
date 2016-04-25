@@ -9,5 +9,6 @@ import java.util.Iterator;
  */
 public interface ITrie {
     public ITrieReference insert(Iterator key, IActionAtInsert value);
+    public ITrieReference insert(String str) throws IllegalStateException;
     public ITrieReference insert(String str, IActionAtInsert value);
 }
