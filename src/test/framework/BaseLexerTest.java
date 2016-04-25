@@ -54,4 +54,40 @@ public class BaseLexerTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void shouldTokenizeDate() {
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04.16")));
+        try {
+            IToken token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.DATE);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void shouldDistiguishIntconsFromDate() {
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04 nodate")));
+        try {
+            IToken token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.PMARK);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);
+            assertThat(token.getRelativeCode()).isEqualTo(1);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.WS);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

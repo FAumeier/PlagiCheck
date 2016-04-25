@@ -1,7 +1,5 @@
 package framework;
 
-import com.sun.org.apache.bcel.internal.generic.FALOAD;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -139,7 +137,9 @@ public class DFA implements IDFA {
                 || state == PM
                 || state == DFAStates.IDENTIFIER
                 || state == DFAStates.INTCONS
-                || state == DFAStates.DATE_STATE) {
+                || state == DFAStates.DATE_STATE
+                || state == DFAStates.FIRST_OF_DAY
+                || state == DFAStates.SECOND_OF_DAY) {
             return true;
         }
         return false;

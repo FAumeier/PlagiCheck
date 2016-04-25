@@ -76,32 +76,6 @@ public class BaseLexer implements ILexer {
                     // Insert final identified token into corresponding trie
                     ITrieReference trieReference = tries.get(classCode).
                             insert(tokenBuffer.substring(0, lastFinalPosition + 1));
-
-                    //Unread der letzten Zeichen
-                    /*char[] temp = new char[tokenBuffer.length()]; //TODO: This a waste of Memory
-                    int end = lastFinalPosition + 1;
-                    if (position > end) {
-                        tokenBuffer.getChars(end, position, temp, 0); //TODO: use this in a smarter way
-                    } else if (position < end) {
-                        tokenBuffer.getChars(position, end, temp, 0); //TODO: use this in a smarter way
-                    } else {
-                        temp[0] = tokenBuffer.charAt(position);
-                    }
-                    int numberOfActualCharsInArray = 0; //This is here to count the actual chars in the temp array
-                    for (int counter = 0; counter < temp.length; counter++) {
-                        if (temp[counter] != 0) {
-                            numberOfActualCharsInArray++;
-                        }
-                    }
-                    char[] charsToPushBack = new char[numberOfActualCharsInArray]; //This is the real array which stores all the chars we want to pushback onto the PushbackReader
-                    //now add chars to push back to new array
-                    for (int counter = 0; counter < numberOfActualCharsInArray; counter++) {
-                        if (temp[counter] != 0) {
-                            charsToPushBack[counter] = temp[counter];
-                        }
-                    }
-                    reader.unread(charsToPushBack);*/
-
                     // Push back characters which have been read to far
                     reader.unread(tokenBuffer.substring(lastFinalPosition +1, tokenBuffer.length()).toCharArray());
                     // Create and return token
