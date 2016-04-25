@@ -98,7 +98,7 @@ public class BaseLexer implements ILexer {
                             break;
                     }
                     //Unread der letzten Zeichen
-                    char[] temp = new char[tokenBuffer.length()]; //TODO: This a waste of Memory
+                    /*char[] temp = new char[tokenBuffer.length()]; //TODO: This a waste of Memory
                     int end = lastFinalPosition + 1;
                     if (position > end) {
                         tokenBuffer.getChars(end, position, temp, 0); //TODO: use this in a smarter way
@@ -120,7 +120,8 @@ public class BaseLexer implements ILexer {
                             charsToPushBack[counter] = temp[counter];
                         }
                     }
-                    reader.unread(charsToPushBack);
+                    reader.unread(charsToPushBack);*/
+                    reader.unread(tokenBuffer.substring(lastFinalPosition +1, tokenBuffer.length()).toCharArray());
 
                     int relativeCode = (int) trieReference.getValue();
                     return new Token(classCode, relativeCode);

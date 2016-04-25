@@ -1,12 +1,13 @@
 package framework;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.LinkedList;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests the base lexer
@@ -25,6 +26,30 @@ public class BaseLexerTest {
                 IToken token = sut.getNextToken();
                 System.out.println("Token ClassCode: " + token.getClassCode() + " RelativeCode: " + token.getRelativeCode());
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void shouldTokenizeTestSentence() {
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("Hallo 242  Test")));
+        try {
+            IToken token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.WS);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);
+            assertThat(token.getRelativeCode()).isEqualTo(0);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.WS);
+            assertThat(token.getRelativeCode()).isEqualTo(1);
+            token = sut.getNextToken();
+            assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
+            assertThat(token.getRelativeCode()).isEqualTo(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
