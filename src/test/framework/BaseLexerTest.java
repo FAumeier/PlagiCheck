@@ -19,7 +19,7 @@ public class BaseLexerTest {
 
     @Test
     public void shouldDetermineTokensCorrectly() {
-        BaseLexer sut = new BaseLexer(new PushbackReader(new StringReader(digitwithWhiteSpace)));
+        BaseLexer sut = new BaseLexer(new PushbackReader(new StringReader(digitwithWhiteSpace), 4));
         LinkedList<IToken> tokens = new LinkedList<>();
         try {
             for (int i = 0; i < 4; i++) {
@@ -33,7 +33,7 @@ public class BaseLexerTest {
 
     @Test
     public void shouldTokenizeTestSentence() {
-        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("Hallo 242  Test")));
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("Hallo 242  Test"), 4));
         try {
             IToken token = sut.getNextToken();
             assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
@@ -57,11 +57,14 @@ public class BaseLexerTest {
 
     @Test
     public void shouldTokenizeDate() {
-        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04.16")));
+        String[] dates = {"02.04.16", "02.04.2016"};
         try {
-            IToken token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.DATE);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
+            for (int i = 0; i < dates.length; i++) {
+                ILexer sut = new BaseLexer(new PushbackReader(new StringReader(dates[i]), 4));
+                IToken token = sut.getNextToken();
+                assertThat(token.getClassCode()).isEqualTo(ClassCodes.DATE);
+                assertThat(token.getRelativeCode()).isEqualTo(0);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,7 +72,7 @@ public class BaseLexerTest {
 
     @Test
     public void shouldDistiguishIntconsFromDate() {
-        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04 nodate")));
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04 nodate"), 4));
         try {
             IToken token = sut.getNextToken();
             assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);

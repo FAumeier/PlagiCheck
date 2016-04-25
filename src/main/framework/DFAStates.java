@@ -19,7 +19,8 @@ public enum DFAStates {
     MONTH_STATE(11, "Month state"),
     FIRST_OF_YEAR(12, "First of year state"),
     SECOND_OF_YEAR(13, "Second of year state"),
-    DATE_STATE(14, "Date state");
+    THIRD_OF_YEAR(14, "Third of year state"),
+    DATE_STATE(15, "Date state");
 
     private final int id;
     private final String description;
