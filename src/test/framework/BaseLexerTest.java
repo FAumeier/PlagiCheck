@@ -5,27 +5,47 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.StringReader;
-import java.util.LinkedList;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the base lexer
  */
 public class BaseLexerTest {
-    private final String testMessage = "Am 01.05.15 wissen wir,dass 1 und 1 gleich   2 ist.";
-    private final String date = "01.05.15";
-    private final String digitwithWhiteSpace = " 1";
+
+    /** Helper to assert equality of class and relative code for a token */
+    private void assertToken(IToken token, ClassCodes classCode, int relativeCode) {
+        assertThat(token.getClassCode()).isEqualTo(classCode);
+        assertThat(token.getRelativeCode()).isEqualTo(relativeCode);
+    }
 
     @Test
     public void shouldDetermineTokensCorrectly() {
-        BaseLexer sut = new BaseLexer(new PushbackReader(new StringReader(digitwithWhiteSpace), 4));
-        LinkedList<IToken> tokens = new LinkedList<>();
+        ILexer sut = new BaseLexer(new PushbackReader(
+                new StringReader("Am 01.05.15 wissen wir,dass 1 und 1 gleich   2 ist."), 4));
         try {
-            for (int i = 0; i < 4; i++) {
-                IToken token = sut.getNextToken();
-                System.out.println("Token ClassCode: " + token.getClassCode() + " RelativeCode: " + token.getRelativeCode());
-            }
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 0);  // "Am"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.DATE, 0);        // "01.05.15"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 1);  // "wissen"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 2);  // "wir"
+            assertToken(sut.getNextToken(), ClassCodes.PMARK, 0);       // ","
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 3);  // "dass"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 0);     // "1"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 4);  // "und"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 0);     // "1"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 5);  // "gleich"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 1);          // "   "
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 1);     // "2"
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);          // " "
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 6);  // "ist"
+            assertToken(sut.getNextToken(), ClassCodes.PMARK, 1);       // "."
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,23 +53,14 @@ public class BaseLexerTest {
 
     @Test
     public void shouldTokenizeTestSentence() {
-        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("Hallo 242  Test"), 4));
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("Hallo 242  Test "), 4));
         try {
-            IToken token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.WS);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.WS);
-            assertThat(token.getRelativeCode()).isEqualTo(1);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
-            assertThat(token.getRelativeCode()).isEqualTo(1);
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 0);
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 0);
+            assertToken(sut.getNextToken(), ClassCodes.WS, 1);
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 1);
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,9 +72,7 @@ public class BaseLexerTest {
         try {
             for (int i = 0; i < dates.length; i++) {
                 ILexer sut = new BaseLexer(new PushbackReader(new StringReader(dates[i]), 4));
-                IToken token = sut.getNextToken();
-                assertThat(token.getClassCode()).isEqualTo(ClassCodes.DATE);
-                assertThat(token.getRelativeCode()).isEqualTo(0);
+                assertToken(sut.getNextToken(), ClassCodes.DATE, 0);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,23 +81,16 @@ public class BaseLexerTest {
 
     @Test
     public void shouldDistiguishIntconsFromDate() {
-        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04 nodate"), 4));
+        ILexer sut = new BaseLexer(new PushbackReader(new StringReader("02.04 nodate 02."), 4));
         try {
-            IToken token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.PMARK);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.INTCONS);
-            assertThat(token.getRelativeCode()).isEqualTo(1);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.WS);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
-            token = sut.getNextToken();
-            assertThat(token.getClassCode()).isEqualTo(ClassCodes.IDENTIFIER);
-            assertThat(token.getRelativeCode()).isEqualTo(0);
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 0);
+            assertToken(sut.getNextToken(), ClassCodes.PMARK, 0);
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 1);
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);
+            assertToken(sut.getNextToken(), ClassCodes.IDENTIFIER, 0);
+            assertToken(sut.getNextToken(), ClassCodes.WS, 0);
+            assertToken(sut.getNextToken(), ClassCodes.INTCONS, 0);
+            assertToken(sut.getNextToken(), ClassCodes.PMARK, 0);
         } catch (IOException e) {
             e.printStackTrace();
         }
