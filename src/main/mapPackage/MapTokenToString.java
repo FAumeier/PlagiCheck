@@ -20,8 +20,6 @@ public class MapTokenToString implements IMapTokenToString {
     public String get(IToken tk) {
         ClassCodes classCode = tk.getClassCode();
         int relativeCode = tk.getRelativeCode();
-
-
         String tokenToString = tokens.get(tk);
         return tokenToString;
     }

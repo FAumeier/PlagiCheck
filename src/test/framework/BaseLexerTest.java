@@ -104,7 +104,7 @@ public class BaseLexerTest {
             e.printStackTrace();
         }
     }
-/**
+
     @Test
     public void testDecode() {
         try {
@@ -118,5 +118,4 @@ public class BaseLexerTest {
         IToken token = new Token(ClassCodes.IDENTIFIER, 0);
         assertThat(lexer.decode(token).equals(correctToken));
     }
-    **/
 }
