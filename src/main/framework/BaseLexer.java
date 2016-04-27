@@ -1,6 +1,7 @@
 package framework;
 
 import actionsPackage.StringCoding;
+import mapPackage.MapTokenToString;
 import mapPackage.TreeMapFactory;
 import triePackage.ITrie;
 import triePackage.ITrieReference;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class BaseLexer implements ILexer {
     private final PushbackReader reader;
     private Map<ClassCodes, ITrie> tries = new HashMap<>();
+    private MapTokenToString mMapTokenToString;
 
     private int position;
     private StringBuilder tokenBuffer;
@@ -31,6 +33,7 @@ public class BaseLexer implements ILexer {
         tries.put(ClassCodes.PMARK, new Trie(new TreeMapFactory(), new StringCoding()));
         tries.put(ClassCodes.WS, new Trie(new TreeMapFactory(), new StringCoding()));
         tries.put(ClassCodes.DATE, new Trie(new TreeMapFactory(), new StringCoding()));
+        mMapTokenToString = new MapTokenToString();
     }
     /*
     der lexer nutzt den DFA
@@ -73,13 +76,16 @@ public class BaseLexer implements ILexer {
                 if (lastFinalPosition > -1) {
                     // Get ClassCode for last final state
                     ClassCodes classCode = getClassCodeFromState(lastFinalState);
+                    String stringToken = tokenBuffer.substring(0, lastFinalPosition + 1);
                     // Insert final identified token into corresponding trie
                     ITrieReference trieReference = tries.get(classCode).
-                            insert(tokenBuffer.substring(0, lastFinalPosition + 1));
+                            insert(stringToken);
                     // Push back characters which have been read to far
                     reader.unread(tokenBuffer.substring(lastFinalPosition +1, tokenBuffer.length()).toCharArray());
                     // Create and return token
-                    return new Token(classCode, (int) trieReference.getValue());
+                    Token token = new Token(classCode, (int) trieReference.getValue());
+                    mMapTokenToString.put(token, stringToken);
+                    return token;
                 } else if (lastFinalPosition == -1) {
                     final IToken ERROR_TOKEN = new Token(ClassCodes.ERROR, 0);
                     return ERROR_TOKEN;
@@ -135,6 +141,7 @@ public class BaseLexer implements ILexer {
 
     @Override
     public String decode(IToken tk) {
-        return null;
+        String stringToken = mMapTokenToString.get(tk);
+        return stringToken;
     }
 }

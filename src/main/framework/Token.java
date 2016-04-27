@@ -22,4 +22,23 @@ public class Token implements IToken {
     public int getRelativeCode() {
         return relativeCode;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Token token = (Token) o;
+
+        if (relativeCode != token.relativeCode) return false;
+        return classCode == token.classCode;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = classCode.hashCode();
+        result = 31 * result + relativeCode;
+        return result;
+    }
 }
