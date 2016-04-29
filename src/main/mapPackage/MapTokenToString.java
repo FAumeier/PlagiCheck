@@ -18,8 +18,6 @@ public class MapTokenToString implements IMapTokenToString {
 
     @Override
     public String get(IToken tk) {
-        ClassCodes classCode = tk.getClassCode();
-        int relativeCode = tk.getRelativeCode();
         return tokens.get(tk);
     }
 
