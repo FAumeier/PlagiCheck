@@ -18,8 +18,7 @@ public enum DFAStates {
     SECOND_OF_MONTH(10, "Second of month state"),
     MONTH_STATE(11, "Month state"),
     FIRST_OF_YEAR(12, "First of year state"),
-    SECOND_OF_YEAR(13, "Second of year state"),
-    THIRD_OF_YEAR(14, "Third of year state"),
+    THIRD_OF_YEAR(13, "Third of year state"),   // If you are in DATE_STATE and the year is in Format YYYY instead of YY
     DATE_STATE(15, "Date state");
 
     private final int id;

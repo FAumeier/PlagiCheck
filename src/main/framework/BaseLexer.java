@@ -145,8 +145,6 @@ public class BaseLexer implements ILexer {
                 return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
             case FIRST_OF_YEAR:
                 return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
-            case SECOND_OF_YEAR:
-                return ClassCodes.ERROR; // Can´t be the final state of a token either INTCONS or full DATE
             case DATE_STATE:
                 return ClassCodes.DATE;
             default:

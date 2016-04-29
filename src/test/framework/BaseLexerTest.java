@@ -107,15 +107,20 @@ public class BaseLexerTest {
 
     @Test
     public void testDecode() {
-        try {
-            for (int i = 0; i < sentence.length(); i++) {
-                IToken nextToken = lexer.getNextToken();
+
+        // Token loop for first file
+
+        IToken token = null;
+        do {
+            try {
+                token = lexer.getNextToken();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        String correctToken = "Bla";
-        IToken token = new Token(ClassCodes.IDENTIFIER, 0);
-        assertThat(lexer.decode(token).equals(correctToken));
+        while (token.getClassCode() != ClassCodes.EOF);
+
+        token = new Token(ClassCodes.IDENTIFIER, 0);
+        assertThat(lexer.decode(token).equals("Bla"));
     }
 }

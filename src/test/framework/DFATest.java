@@ -2,11 +2,7 @@ package framework;
 
 import org.junit.Test;
 
-import java.io.PushbackReader;
-import java.io.Reader;
-import java.io.StringReader;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Tests the DFA.
@@ -53,6 +49,7 @@ public class DFATest {
 
     @Test
     public void shouldRecognizeDate() {
+        //13.10.1990
         assertThat(sut.trans(DFAStates.START, '1')).isEqualTo(DFAStates.FIRST_OF_DAY);
         assertThat(sut.trans(DFAStates.FIRST_OF_DAY, '3')).isEqualTo(DFAStates.SECOND_OF_DAY);
         assertThat(sut.trans(DFAStates.SECOND_OF_DAY, '.')).isEqualTo(DFAStates.DAY_STATE);
@@ -60,8 +57,20 @@ public class DFATest {
         assertThat(sut.trans(DFAStates.FIRST_OF_MONTH, '0')).isEqualTo(DFAStates.SECOND_OF_MONTH);
         assertThat(sut.trans(DFAStates.SECOND_OF_MONTH, '.')).isEqualTo(DFAStates.MONTH_STATE);
         assertThat(sut.trans(DFAStates.MONTH_STATE, '1')).isEqualTo(DFAStates.FIRST_OF_YEAR);
-        assertThat(sut.trans(DFAStates.FIRST_OF_YEAR, '9')).isEqualTo(DFAStates.SECOND_OF_YEAR);
-        assertThat(sut.trans(DFAStates.SECOND_OF_YEAR, '9')).isEqualTo(DFAStates.DATE_STATE);
+        assertThat(sut.trans(DFAStates.FIRST_OF_YEAR, '9')).isEqualTo(DFAStates.DATE_STATE);
+        assertThat(sut.trans(DFAStates.DATE_STATE, '9')).isEqualTo(DFAStates.THIRD_OF_YEAR);
+        assertThat(sut.trans(DFAStates.THIRD_OF_YEAR, '0')).isEqualTo(DFAStates.DATE_STATE);
+        assertThat(sut.trans(DFAStates.DATE_STATE, ' ')).isEqualTo(DFAStates.FAILURE);
+
+        //13.10.99
+        assertThat(sut.trans(DFAStates.START, '1')).isEqualTo(DFAStates.FIRST_OF_DAY);
+        assertThat(sut.trans(DFAStates.FIRST_OF_DAY, '3')).isEqualTo(DFAStates.SECOND_OF_DAY);
+        assertThat(sut.trans(DFAStates.SECOND_OF_DAY, '.')).isEqualTo(DFAStates.DAY_STATE);
+        assertThat(sut.trans(DFAStates.DAY_STATE, '1')).isEqualTo(DFAStates.FIRST_OF_MONTH);
+        assertThat(sut.trans(DFAStates.FIRST_OF_MONTH, '0')).isEqualTo(DFAStates.SECOND_OF_MONTH);
+        assertThat(sut.trans(DFAStates.SECOND_OF_MONTH, '.')).isEqualTo(DFAStates.MONTH_STATE);
+        assertThat(sut.trans(DFAStates.MONTH_STATE, '9')).isEqualTo(DFAStates.FIRST_OF_YEAR);
+        assertThat(sut.trans(DFAStates.FIRST_OF_YEAR, '9')).isEqualTo(DFAStates.DATE_STATE);
         assertThat(sut.trans(DFAStates.DATE_STATE, ' ')).isEqualTo(DFAStates.FAILURE);
     }
 
@@ -91,19 +100,18 @@ public class DFATest {
         assertThat(sut.isFinal(DFAStates.PM)).isTrue();
         assertThat(sut.isFinal(DFAStates.IDENTIFIER)).isTrue();
         assertThat(sut.isFinal(DFAStates.INTCONS)).isTrue();
+        assertThat(sut.isFinal(DFAStates.FIRST_OF_DAY)).isTrue();
+        assertThat(sut.isFinal(DFAStates.SECOND_OF_DAY)).isTrue();
         assertThat(sut.isFinal(DFAStates.DATE_STATE)).isTrue();
 
         // No final states
         assertThat(sut.isFinal(DFAStates.EOF)).isFalse();
         assertThat(sut.isFinal(DFAStates.START)).isFalse();
         assertThat(sut.isFinal(DFAStates.FAILURE)).isFalse();
-        assertThat(sut.isFinal(DFAStates.FIRST_OF_DAY)).isFalse();
-        assertThat(sut.isFinal(DFAStates.SECOND_OF_DAY)).isFalse();
         assertThat(sut.isFinal(DFAStates.DAY_STATE)).isFalse();
         assertThat(sut.isFinal(DFAStates.FIRST_OF_MONTH)).isFalse();
         assertThat(sut.isFinal(DFAStates.SECOND_OF_MONTH)).isFalse();
         assertThat(sut.isFinal(DFAStates.MONTH_STATE)).isFalse();
         assertThat(sut.isFinal(DFAStates.FIRST_OF_YEAR)).isFalse();
-        assertThat(sut.isFinal(DFAStates.SECOND_OF_YEAR)).isFalse();
     }
 }
