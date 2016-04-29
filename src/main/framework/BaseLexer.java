@@ -10,12 +10,27 @@ import triePackage.Trie;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
  * Base lexer which works with Class Codes and Relative Codes.
  */
 public class BaseLexer implements ILexer {
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        Iterator it = tries.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            str.append("---------- " + pair.getKey() + "\n");
+            str.append(pair.getValue().toString());
+            it.remove(); // avoids a ConcurrentModificationException
+            str.append("\n");
+        }
+        return str.toString();
+    }
+
     private final PushbackReader reader;
     private Map<ClassCodes, ITrie> tries = new HashMap<>();
     private MapTokenToString mMapTokenToString;

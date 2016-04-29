@@ -18,19 +18,16 @@ public class AlignmentController {
         // Read first file
         InputStream isStreamOriginal = new FileInputStream(original);
         Reader readerOriginal = new InputStreamReader(isStreamOriginal, "UTF-8");
-        BufferedReader inputOriginal = new BufferedReader(readerOriginal);
+        PushbackReader inputOriginal = new PushbackReader(readerOriginal, 4);
 
-        //@TODO: Zweites File einlesen
-
-        //ILexer lexer = new SimpleLexer(inputOriginal);
-        //IToken token = lexer.getNextToken();
-        SimpleLexer lexer = new SimpleLexer(inputOriginal);
-        String token = lexer.getNextStringToken();
-        while (token != null) {
-            System.out.println("Gelesen: " + token);
-            //token = lexer.getNextToken();
-            token = lexer.getNextStringToken();
+        // Token loop for first file
+        ILexer lexer = new BaseLexer(inputOriginal);
+        IToken token;
+        do {
+            token = lexer.getNextToken();
         }
+        while (token.getClassCode() != ClassCodes.EOF);
+
         System.out.println(lexer.toString());
         //@TODO: Lexer für zweiten Input einbinden + Leseschleife
     }

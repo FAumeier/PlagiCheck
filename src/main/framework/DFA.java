@@ -35,7 +35,7 @@ public class DFA implements IDFA {
                 else if (Character.isAlphabetic(nextChar)) {
                     return IDENTIFIER;
                 }
-                else if (nextChar == -1) {
+                else if (nextChar == '\uFFFF' ) { //EOF seems to be this strange Character... Not -1...
                     return EOF;
                 }
                 else {
