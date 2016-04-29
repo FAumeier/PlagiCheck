@@ -15,8 +15,8 @@ import static org.assertj.core.api.Assertions.*;
  */
 public class TrieTest {
 
-    ITrie trie;
-    IActionAtInsert stringCoding;
+    private ITrie trie;
+    private IActionAtInsert stringCoding;
 
     /** Setup test objects for Trie tests */
     @Before

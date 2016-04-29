@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Created by Flo on 05.04.2016.
  */
 public class MapTokenToString implements IMapTokenToString {
-    ConcurrentHashMap<IToken, String> tokens = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<IToken, String> tokens = new ConcurrentHashMap<>();
 
     @Override
     public void put(IToken tk, String s) {
@@ -20,8 +20,7 @@ public class MapTokenToString implements IMapTokenToString {
     public String get(IToken tk) {
         ClassCodes classCode = tk.getClassCode();
         int relativeCode = tk.getRelativeCode();
-        String tokenToString = tokens.get(tk);
-        return tokenToString;
+        return tokens.get(tk);
     }
 
 }

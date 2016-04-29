@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.*;
  * Created by Matthias on 21.03.2016.
  */
 public class TreeMapFactoryTest {
-    IMapFactory mapFactory;
+    private IMapFactory mapFactory;
     @Before
     public void setUp() throws Exception {
         mapFactory = new TreeMapFactory();

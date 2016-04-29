@@ -15,12 +15,12 @@ public class Trie implements ITrie {
     /**
      * Logger
      */
-    final static Logger LOG = LogManager.getLogger(Trie.class.getName()); //Use for example: LOG.debug("any string");
+    private final static Logger LOG = LogManager.getLogger(Trie.class.getName()); //Use for example: LOG.debug("any string");
 
-    ITrieNode root;
-    IMapFactory mapFactory;
+    private final ITrieNode root;
+    private final IMapFactory mapFactory;
 
-    IActionAtInsert ownActionAtInsert;
+    private final IActionAtInsert ownActionAtInsert;
 
     public Trie(IMapFactory mapFactory, IActionAtInsert actionAtInsert) {
         this.mapFactory = mapFactory;

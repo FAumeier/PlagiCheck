@@ -136,28 +136,23 @@ public class DFA implements IDFA {
 
     @Override
     public boolean isFinal(DFAStates state) {
-        if (state == WS
+        return state == WS
                 || state == PM
                 || state == DFAStates.IDENTIFIER
                 || state == DFAStates.INTCONS
                 || state == DFAStates.DATE_STATE
                 || state == DFAStates.FIRST_OF_DAY
-                || state == DFAStates.SECOND_OF_DAY) {
-            return true;
-        }
-        return false;
+                || state == DFAStates.SECOND_OF_DAY;
     }
 
     @Override
     public boolean isStop(DFAStates state) {
-        if (state == DFAStates.EOF || state == DFAStates.FAILURE) {
-            return true;
-        }
-        return false;
+        return state == DFAStates.EOF || state == DFAStates.FAILURE;
     }
 
     @Override
     public Set getTokenClasses() {
+        //@TODO: Was gehört hier denn rein?!
         return null;
     }
 }

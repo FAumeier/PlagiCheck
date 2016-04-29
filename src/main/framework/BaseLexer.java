@@ -32,8 +32,8 @@ public class BaseLexer implements ILexer {
     }
 
     private final PushbackReader reader;
-    private Map<ClassCodes, ITrie> tries = new HashMap<>();
-    private MapTokenToString mMapTokenToString;
+    private final Map<ClassCodes, ITrie> tries = new HashMap<>();
+    private final MapTokenToString mMapTokenToString;
 
     private int position;
     private StringBuilder tokenBuffer;
@@ -102,8 +102,7 @@ public class BaseLexer implements ILexer {
                     mMapTokenToString.put(token, stringToken);
                     return token;
                 } else if (lastFinalPosition == -1) {
-                    final IToken ERROR_TOKEN = new Token(ClassCodes.ERROR, 0);
-                    return ERROR_TOKEN;
+                    return new Token(ClassCodes.ERROR, 0);
                 }
             }
             if (currentState == DFAStates.EOF) {
@@ -154,7 +153,6 @@ public class BaseLexer implements ILexer {
 
     @Override
     public String decode(IToken tk) {
-        String stringToken = mMapTokenToString.get(tk);
-        return stringToken;
+        return mMapTokenToString.get(tk);
     }
 }

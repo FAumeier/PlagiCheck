@@ -14,8 +14,8 @@ import static org.assertj.core.api.Assertions.*;
  */
 public class BaseLexerTest {
 
-    ILexer lexer;
-    String sentence;
+    private ILexer lexer;
+    private String sentence;
     @Before
     public void setUp() throws Exception {
         sentence = "Bla dies ist ein, Satz geschrieben am 12.10.16";

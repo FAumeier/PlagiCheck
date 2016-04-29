@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by Matthias on 20.03.2016.
  */
 public class PartialKeyTypeTest {
-    PartialKeyType[] keys;
+    private PartialKeyType[] keys;
     @Before
     public void setUp() throws Exception {
         keys = new PartialKeyType[6];

@@ -5,7 +5,7 @@ import framework.IToken;
 /*
  *
  */
-public interface IMapTokenToString {
-    public void put(IToken tk, String s);
-    public String get(IToken tk);
+interface IMapTokenToString {
+    void put(IToken tk, String s);
+    String get(IToken tk);
 }

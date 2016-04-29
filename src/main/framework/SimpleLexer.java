@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  * Created by Matthias on 19.03.2016.
  */
 public class SimpleLexer implements ILexer {
-    static final Logger LOG = LogManager.getLogger(SimpleLexer.class.getName()); //Use for example: LOG.debug("any string");
+    private static final Logger LOG = LogManager.getLogger(SimpleLexer.class.getName()); //Use for example: LOG.debug("any string");
 
     final private BufferedReader reader;
     final private IMapFactory mapFactory = new TreeMapFactory();    // DIC

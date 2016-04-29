@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 /**
  * Created by Matthias on 18.03.2016.
  */
-public class PlagiCheck {
+class PlagiCheck {
     public static void main(String[] args) throws Exception {
         if (args.length == 2) {
             AlignmentController controller = new AlignmentController(args[0], args[1]);

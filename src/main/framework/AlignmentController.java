@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Created by Matthias on 19.03.2016.
  */
-public class AlignmentController {
+class AlignmentController {
     final private String original;
     final private String suspect;
 

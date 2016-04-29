@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by Matthias on 21.03.2016.
  */
 public class StringCodingTest {
-    StringCoding sut;
+    private StringCoding sut;
     @Before
     public void setUp() throws Exception {
         sut = new StringCoding();

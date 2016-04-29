@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by Matthias on 19.03.2016.
  */
 public class TrieNode implements ITrieNode {
-    static final Logger LOG = LogManager.getLogger(TrieNode.class.getName()); //Use for example: LOG.debug("any string");
+    private static final Logger LOG = LogManager.getLogger(TrieNode.class.getName()); //Use for example: LOG.debug("any string");
 
     private final ITrieNode parent;         // Parent of this node
     private final IMapFactory mapFactory;   // MapFactory given from parent
@@ -85,9 +85,8 @@ public class TrieNode implements ITrieNode {
             }
             else {
                 // Character not found
-                Comparable newKey = thisKey;
-                correspondingNode = new TrieNode(this, mapFactory, newKey);
-                outgoingEdgeMap.put(newKey, correspondingNode);
+                correspondingNode = new TrieNode(this, mapFactory, thisKey);
+                outgoingEdgeMap.put(thisKey, correspondingNode);
                 if (!key.hasNext()) {
                     correspondingValue = (int) value.actionAtKeyNotFound();
                     correspondingNode.setKeyNodeValue(correspondingValue);
