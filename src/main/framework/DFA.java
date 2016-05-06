@@ -39,7 +39,7 @@ public class DFA implements IDFA {
                     return EOF;
                 }
                 else {
-                    return FAILURE;
+                    return DEFAULT_STATE;
                 }
             case FAILURE:
                 break;
@@ -130,6 +130,11 @@ public class DFA implements IDFA {
                     return THIRD_OF_YEAR;
                 }
                 return FAILURE;
+            case DEFAULT_STATE:
+                if (pm.contains((char) nextChar) || Character.isWhitespace(nextChar) || (nextChar == '\uFFFF')) {
+                    return FAILURE;
+                }
+                return DEFAULT_STATE;
         }
         return null;
     }
