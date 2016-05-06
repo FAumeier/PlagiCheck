@@ -10,7 +10,7 @@ import static framework.DFAStates.*;
  * Deterministic state automate.
  */
 public class DFA implements IDFA {
-    private static final Set<Character> pm = new HashSet<Character>(Arrays.asList('.', ',', ':', ';', '!', '?'));
+    private static final Set<Character> pm = new HashSet<>(Arrays.asList('.', ',', ':', ';', '!', '?'));
 
     @Override
     public DFAStates initial() {

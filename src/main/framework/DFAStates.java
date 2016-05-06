@@ -19,7 +19,8 @@ public enum DFAStates {
     MONTH_STATE(11, "Month state"),
     FIRST_OF_YEAR(12, "First of year state"),
     THIRD_OF_YEAR(13, "Third of year state"),   // If you are in DATE_STATE and the year is in Format YYYY instead of YY
-    DATE_STATE(15, "Date state");
+    DATE_STATE(15, "Date state"),
+    DEFAULT_STATE(16, "Default");   // Collects random garbage
 
     private final int id;
     private final String description;

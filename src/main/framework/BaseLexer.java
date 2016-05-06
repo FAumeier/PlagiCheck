@@ -93,8 +93,7 @@ public class BaseLexer implements ILexer {
                     ClassCodes classCode = getClassCodeFromState(lastFinalState);
                     String stringToken = tokenBuffer.substring(0, lastFinalPosition + 1);
                     // Insert final identified token into corresponding trie
-                    ITrieReference trieReference = tries.get(classCode).
-                            insert(stringToken);
+                    ITrieReference trieReference = tries.get(classCode).insert(stringToken);
                     // Push back characters which have been read to far
                     reader.unread(tokenBuffer.substring(lastFinalPosition +1, tokenBuffer.length()).toCharArray());
                     // Create and return token

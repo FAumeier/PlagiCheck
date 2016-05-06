@@ -114,4 +114,35 @@ public class DFATest {
         assertThat(sut.isFinal(DFAStates.MONTH_STATE)).isFalse();
         assertThat(sut.isFinal(DFAStates.FIRST_OF_YEAR)).isFalse();
     }
+
+    @Test
+    public void shouldRecognizeRandomGarbage() {
+        assertThat(sut.trans(DFAStates.START, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, 'a')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '.')).isEqualTo(DFAStates.FAILURE);
+
+        assertThat(sut.trans(DFAStates.START, '&')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, 'a')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, ',')).isEqualTo(DFAStates.FAILURE);
+
+        assertThat(sut.trans(DFAStates.START, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, 'a')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, ' ')).isEqualTo(DFAStates.FAILURE);
+
+        assertThat(sut.trans(DFAStates.START, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '$')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '2')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, 'a')).isEqualTo(DFAStates.DEFAULT_STATE);
+        assertThat(sut.trans(DFAStates.DEFAULT_STATE, '\uFFFF')).isEqualTo(DFAStates.FAILURE);
+    }
 }
