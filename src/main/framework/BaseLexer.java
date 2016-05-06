@@ -31,7 +31,7 @@ public class BaseLexer implements ILexer {
         return str.toString();
     }
 
-    private final PushbackReader reader;
+    private PushbackReader reader;
     private final Map<ClassCodes, ITrie> tries = new HashMap<>();
     private final MapTokenToString mMapTokenToString;
 
@@ -153,5 +153,10 @@ public class BaseLexer implements ILexer {
     @Override
     public String decode(IToken tk) {
         return mMapTokenToString.get(tk);
+    }
+
+    @Override
+    public void setPushBackReader(PushbackReader reader) {
+        this.reader = reader;
     }
 }
