@@ -159,4 +159,8 @@ public class BaseLexer implements ILexer {
     public void setPushBackReader(PushbackReader reader) {
         this.reader = reader;
     }
+
+    public MapTokenToString getmMapTokenToString() {
+        return mMapTokenToString;
+    }
 }
