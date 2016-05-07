@@ -29,12 +29,12 @@ class AlignmentController {
         PushbackReader inputOriginal = new PushbackReader(readerOriginal, 4);
 
         // Read second file
-        InputStream isStreamSuspect = new FileInputStream(original);
+        InputStream isStreamSuspect = new FileInputStream(suspect);
         Reader readerSuspect = new InputStreamReader(isStreamSuspect, "UTF-8");
         PushbackReader inputSuspect = new PushbackReader(readerSuspect, 4);
 
         // Token loop for first file
-        ILexer lexer = new BaseLexer(inputOriginal);
+        ILexer lexer = new FilterLexer(new BaseLexer(inputOriginal));
         IToken token;
         do {
             token = lexer.getNextToken();
@@ -42,6 +42,10 @@ class AlignmentController {
         while (token.getClassCode() != ClassCodes.EOF);
 
         System.out.println(lexer.toString());
-        //@TODO: Lexer für zweiten Input einbinden + Leseschleife
+        lexer.setPushBackReader(inputSuspect);
+        do {
+            token = lexer.getNextToken();
+        }
+        while (token.getClassCode() != ClassCodes.EOF);
     }
 }
