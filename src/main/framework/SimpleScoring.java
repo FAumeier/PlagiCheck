@@ -9,18 +9,20 @@ public class SimpleScoring implements IScoring {
     private static double nearMatchScore    = 0.5;
     private static double gapScore          = -1.0;
 
-    private final ILexer lexer;
+    private final INearMatcher nearMatcher;
 
-    public SimpleScoring(ILexer lexer) {
-        this.lexer = lexer; // Lexer to decode tokens for near match check
+    public SimpleScoring(INearMatcher nearMatcher) {
+        this.nearMatcher = nearMatcher;
     }
 
     @Override
     public double getScore(IToken tk1, IToken tk2) {
         // Currently only checks for perfect match or mismatch
-        // @Todo: Implement nearmatch logic... Use lexer to decode tokens
         if (tk1.equals(tk2)) {
             return perfectScore;
+        }
+        else if (nearMatcher.isNearMatch(tk1, tk2)) {
+            return nearMatchScore;
         }
         else {
             return mismatchScore;
