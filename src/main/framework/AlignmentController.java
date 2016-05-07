@@ -40,12 +40,12 @@ class AlignmentController {
             token = lexer.getNextToken();
         }
         while (token.getClassCode() != ClassCodes.EOF);
-
+        /**
         System.out.println(lexer.toString());
         lexer.setPushBackReader(inputSuspect);
         do {
             token = lexer.getNextToken();
         }
-        while (token.getClassCode() != ClassCodes.EOF);
+         while (token.getClassCode() != ClassCodes.EOF);**/
     }
 }

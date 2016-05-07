@@ -13,6 +13,7 @@ import triePackage.Trie;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PushbackReader;
 import java.util.StringTokenizer;
 
 /**
@@ -21,7 +22,7 @@ import java.util.StringTokenizer;
 public class SimpleLexer implements ILexer {
     private static final Logger LOG = LogManager.getLogger(SimpleLexer.class.getName()); //Use for example: LOG.debug("any string");
 
-    final private BufferedReader reader;
+    private BufferedReader reader;
     final private IMapFactory mapFactory = new TreeMapFactory();    // DIC
     final private IActionAtInsert action = new StringCoding();  // DIC
     final private ITrie trie;                                       // DIC
@@ -117,6 +118,11 @@ public class SimpleLexer implements ILexer {
 
     public String decode(IToken tk) throws UnsupportedOperationException {
         return tokenToString.get(tk);
+    }
+
+    @Override
+    public void setPushBackReader(PushbackReader reader) {
+        this.reader = new BufferedReader(reader); //in my humble opinion this is ugly a.f
     }
 
     @Override
