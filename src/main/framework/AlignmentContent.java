@@ -5,23 +5,13 @@ package framework;
  * Matrix festgehalten und wie dieser Erreicht wurde (direction)
  */
 public class AlignmentContent implements IAlignmentContent {
-    /**
-     * Zeilenindex
-     */
-    private int i;
-    /**
-     * Spaltenindex
-     */
-    private int j;
     private Direction direction;
     /**
      * Wert eines Feldes
      */
     private double value;
 
-    public AlignmentContent(int i, int j, Direction direction, double value) {
-        this.i = i;
-        this.j = j;
+    public AlignmentContent(Direction direction, double value) {
         this.direction = direction;
         this.value = value;
     }
@@ -43,8 +33,6 @@ public class AlignmentContent implements IAlignmentContent {
 
         AlignmentContent that = (AlignmentContent) o;
 
-        if (i != that.i) return false;
-        if (j != that.j) return false;
         if (Double.compare(that.value, value) != 0) return false;
         return direction == that.direction;
 
@@ -54,9 +42,7 @@ public class AlignmentContent implements IAlignmentContent {
     public int hashCode() {
         int result;
         long temp;
-        result = i;
-        result = 31 * result + j;
-        result = 31 * result + direction.hashCode();
+        result = direction.hashCode();
         temp = Double.doubleToLongBits(value);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
@@ -65,19 +51,9 @@ public class AlignmentContent implements IAlignmentContent {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("AlignmentContent{");
-        sb.append("i=").append(i);
-        sb.append(", j=").append(j);
-        sb.append(", direction=").append(direction);
+        sb.append("direction=").append(direction);
         sb.append(", value=").append(value);
         sb.append('}');
         return sb.toString();
-    }
-
-    public int getRowIndex() {
-        return i;
-    }
-
-    public int getColumnIndex() {
-        return j;
     }
 }

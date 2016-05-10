@@ -14,7 +14,7 @@ public class AlignmentContentTest {
 
     @Before
     public void setUp() throws Exception {
-        alignmentContent = new AlignmentContent(0, 0, Direction.VERTICAL_MOVE, 1.00);
+        alignmentContent = new AlignmentContent(Direction.VERTICAL_MOVE, 1.00);
     }
 
     @Test
@@ -29,9 +29,9 @@ public class AlignmentContentTest {
 
     @Test
     public void equalsTest() throws Exception {
-        IAlignmentContent otherContent = new AlignmentContent(1, 0, Direction.VERTICAL_MOVE, 1D);
+        IAlignmentContent otherContent = new AlignmentContent(Direction.VERTICAL_MOVE, 2D);
         assertNotEquals(true, alignmentContent.equals(otherContent));
-        otherContent = new AlignmentContent(0, 0, Direction.VERTICAL_MOVE, 1D);
+        otherContent = new AlignmentContent(Direction.VERTICAL_MOVE, 1D);
         assertEquals(true, alignmentContent.equals(otherContent));
     }
 }
