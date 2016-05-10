@@ -14,7 +14,7 @@ public class TokenSequence implements ITokenSequence {
     }
 
     @Override
-    public void add(Token tk) {
+    public void add(IToken tk) {
         tokenLinkedList.add(tk);
     }
 

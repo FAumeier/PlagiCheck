@@ -8,17 +8,16 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
     private IAlignmentContent[][] matrix;
     private final int length;
     private final int width;
-    private final IScoring score = new SimpleScoring(new NearMatcher());
 
 
-    public SimpleAlignmentMatrix(int length, int width) {
+    public SimpleAlignmentMatrix(int length, int width, double gapScore) {
         this.length = length;
         this.width = width;
         matrix = new IAlignmentContent[length][width];
-        initializeMatrix();
+        initializeMatrix(gapScore);
     }
 
-    private void initializeMatrix() {
+    private void initializeMatrix(double gapScore) {
         //Fill with negative infinity
         for (int y = 0; y < length; y++) {
             for (int x = 0; x < width; x++) {
@@ -26,11 +25,11 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
 
                 //Fill first row with gap scores
                 if (y == 0) {
-                    matrix[y][x] = new AlignmentContent(Direction.HORIZONTAL_MOVE, (double) x * score.getGapScore() );
+                    matrix[y][x] = new AlignmentContent(Direction.HORIZONTAL_MOVE, (double) x * gapScore );
                 }
                 //Fill first column with gap scores
                 if (x == 0) {
-                    matrix[y][x] = new AlignmentContent(Direction.VERTICAL_MOVE, (double) y * score.getGapScore() );
+                    matrix[y][x] = new AlignmentContent(Direction.VERTICAL_MOVE, (double) y * gapScore );
                 }
             }
         }

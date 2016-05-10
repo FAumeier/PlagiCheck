@@ -6,8 +6,8 @@ package framework;
 public class SimpleSelector implements ISelector {
     private IRegion region;
 
-    public SimpleSelector(IRegion region) {
-        this.region = region;
+    public SimpleSelector(ITokenSequence sequence1, ITokenSequence sequence2) {
+        region = new Region(0, sequence1.length(), 0, sequence2.length());
     }
 
     @Override

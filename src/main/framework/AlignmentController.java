@@ -8,13 +8,10 @@ import java.io.*;
 class AlignmentController {
     final private String original;
     final private String suspect;
-    final private ISelector selector;
 
     public AlignmentController(String original, String suspect) {
         this.original = original;
         this.suspect = suspect;
-
-        selector = new SimpleSelector(new Region(0, getSize(original), 0, getSize(suspect)));
     }
 
     private int getSize(String filename) {
@@ -35,17 +32,32 @@ class AlignmentController {
 
         // Token loop for first file
         ILexer lexer = new FilterLexer(new BaseLexer(inputOriginal));
-        IToken token;
+        IToken token = null;
+        ITokenSequence s1 = new TokenSequence();
         do {
             token = lexer.getNextToken();
+            s1.add(token);
         }
         while (token.getClassCode() != ClassCodes.EOF);
-        /**
-        System.out.println(lexer.toString());
-        lexer.setPushBackReader(inputSuspect);
+
+        //System.out.println(lexer.toString());
+        lexer.setPushBackReader(inputSuspect);  //Change reader in Lexer to get one completed lexer for both files
+        token = null;
+        ITokenSequence s2 = new TokenSequence();
         do {
             token = lexer.getNextToken();
+            s2.add(token);;
         }
-         while (token.getClassCode() != ClassCodes.EOF);**/
+        while (token.getClassCode() != ClassCodes.EOF);
+
+
+        IScoring scoring = new SimpleScoring(new NearMatcher());
+        ISelector selector = new SimpleSelector(s1, s2);
+        IRegion region = selector.getRegion();
+        IAligner aligner = new Aligner(region, scoring, s1, s2);
+        IAlignmentMatrix matrix = aligner.forward();
+
+
+
     }
 }
