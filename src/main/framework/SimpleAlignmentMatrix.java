@@ -9,6 +9,7 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
     private final int length;
     private final int width;
 
+
     public SimpleAlignmentMatrix(int length, int width) {
         this.length = length;
         this.width = width;
@@ -17,11 +18,13 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
     }
 
     private void initializeMatrix() {
+        //Fill with negative infinity
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < width; j++) {
                 matrix[i][j] = new AlignmentContent(Direction.DIAGONAL_MOVE, Double.NEGATIVE_INFINITY);
             }
         }
+        //set constants
     }
 
     @Override

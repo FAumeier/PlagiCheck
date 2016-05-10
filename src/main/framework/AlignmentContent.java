@@ -22,8 +22,21 @@ public class AlignmentContent implements IAlignmentContent {
     }
 
     @Override
+    public void set(double value) {
+        this.value = value;
+    }
+
+    @Override
     public Direction getDirection() {
         return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 
     @Override

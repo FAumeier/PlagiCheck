@@ -6,5 +6,6 @@ package framework;
 public interface IAlignmentContent {
     double getValue();
 
+    void set(double value);
     Direction getDirection();
 }
