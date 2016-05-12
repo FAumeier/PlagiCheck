@@ -41,4 +41,9 @@ public class Token implements IToken {
         result = 31 * result + relativeCode;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "{" + classCode.toShort() + relativeCode + "}";
+    }
 }

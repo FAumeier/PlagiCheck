@@ -33,7 +33,6 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
                 }
             }
         }
-        //set constants
     }
 
     @Override
@@ -49,20 +48,37 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
     private void printRow(IAlignmentContent[] row) {
         int columnCounter = 0;
         for (IAlignmentContent i : row) {
-            System.out.print("x:" + columnCounter + i);
+            System.out.print(" x:" + columnCounter + i);
             System.out.print("\t");
             columnCounter++;
         }
         System.out.println();
     }
 
-    public void printMatrix() {
+    public void printMatrix(ITokenSequence original, ITokenSequence suspect) {
         int rowCounter = 0;
+        System.out.print("                        ");
+        for (int i = 0; i < original.length(); i++) {
+            System.out.print("    " + original.getToken(i) + "       ");
+        }
+        System.out.print("\n");
+        int rows = -1;
         for(IAlignmentContent[] row : matrix) {
             System.out.print("y: " + rowCounter + " ");
+            if (rows >= 0 && rows < suspect.length() - 1) {
+                System.out.print(suspect.getToken(rows) + " ");;
+            }
+            else {
+                System.out.print("      ");
+            }
+
+            rows++;
+
             printRow(row);
             rowCounter++;
         }
+
+
         System.out.println("\n");
     }
 }

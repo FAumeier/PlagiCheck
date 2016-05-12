@@ -33,4 +33,24 @@ public enum ClassCodes {
     public String toString() {
         return description;
     }
+
+    public String toShort() {
+        switch (this) {
+            case IDENTIFIER:
+                return "ID";
+            case DATE:
+                return "DA";
+            case WS:
+                return "WS";
+            case PMARK:
+                return "PM";
+            case INTCONS:
+                return "IC";
+            case EOF:
+                return "EO";
+            case ERROR:
+                return "ER";
+        }
+        return "--";
+    }
 }

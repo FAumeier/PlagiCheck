@@ -63,10 +63,27 @@ public class AlignmentContent implements IAlignmentContent {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{ ");
-        sb.append("direction=").append(direction);
-        sb.append(", value=").append(value);
-        sb.append('}');
+        final StringBuilder sb = new StringBuilder("{");
+        switch (direction) {
+            case DIAGONAL_MOVE:
+                sb.append("↘ ");
+                break;
+            case HORIZONTAL_MOVE:
+                sb.append("→ ");
+                break;
+            case VERTICAL_MOVE:
+                sb.append("↓ ");
+                break;
+        }
+        if (value == Double.NEGATIVE_INFINITY) {
+            sb.append("  -∞}");
+        }
+        else if (value > 0) {
+            sb.append("+" + value + "}");
+        }
+        else {
+            sb.append(value + "}");
+        }
         return sb.toString();
     }
 }

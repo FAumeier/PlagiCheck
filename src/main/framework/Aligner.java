@@ -55,8 +55,8 @@ public class Aligner implements IAligner {
             }
         }*/
 
-        for (int y = 1; y < m-1; y++) {   // Rows
-            for (int x = 1; x < n-1; x++) {   // Columns
+        for (int y = 1; y < m-2; y++) {   // Rows
+            for (int x = 1; x < n-2; x++) {   // Columns
                 //@Fixme: this score is only the direct comparison of the tokens corresponding to the cell, but you
                 // have to calculate every one of the three ways -> Horizontal, vertical, diagonal and then pick the
                 // best one and summarize it with value from which it came from...
@@ -84,8 +84,8 @@ public class Aligner implements IAligner {
                 }
 
                 // Set highest AlignmentContent
-                alignmentMatrix.set(x, y, best);
-                alignmentMatrix.printMatrix();
+                alignmentMatrix.set(y, x, best);
+                alignmentMatrix.printMatrix(originalTokenSequence, suspectTokenSequence);
             }
         }
         return null;
