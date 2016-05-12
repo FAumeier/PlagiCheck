@@ -55,24 +55,22 @@ public class Aligner implements IAligner {
             }
         }*/
 
-        for (int y = 1; y < m-2; y++) {   // Rows
-            for (int x = 1; x < n-2; x++) {   // Columns
+        for (int i = 1; i < m-1; i++) {   // Rows
+            for (int j = 1; j < n-1; j++) {   // Columns
                 //@Fixme: this score is only the direct comparison of the tokens corresponding to the cell, but you
                 // have to calculate every one of the three ways -> Horizontal, vertical, diagonal and then pick the
                 // best one and summarize it with value from which it came from...
 
                 // Calculate diagonal movement for (X, Y)
                 IAlignmentContent diagonal = new AlignmentContent(Direction.DIAGONAL_MOVE,
-                        alignmentMatrix.get(x-1, y-1).getValue()
-                                + scoring.getScore(originalTokenSequence.getToken(y), suspectTokenSequence.getToken(x)));
+                        alignmentMatrix.get(i-1, j-1).getValue()
+                                + scoring.getScore(originalTokenSequence.getToken(i-1), suspectTokenSequence.getToken(j-1)));
                 // Calculate vertical movement for (X, Y)
                 IAlignmentContent vertical = new AlignmentContent(Direction.VERTICAL_MOVE,
-                        alignmentMatrix.get(x, y-1).getValue()
-                                + scoring.getScore(originalTokenSequence.getToken(y-1), suspectTokenSequence.getToken(x)));
+                        alignmentMatrix.get(i, j-1).getValue() + gapScore);
                 // Calculate horizontal movement for (X, Y)
                 IAlignmentContent horizontal = new AlignmentContent(Direction.HORIZONTAL_MOVE,
-                        alignmentMatrix.get(x-1, y).getValue()
-                                + scoring.getScore(originalTokenSequence.getToken(y), suspectTokenSequence.getToken(x-1)));
+                        alignmentMatrix.get(i-1, j).getValue() + gapScore);
 
                 // Get highest value
                 IAlignmentContent best = diagonal;
@@ -84,7 +82,7 @@ public class Aligner implements IAligner {
                 }
 
                 // Set highest AlignmentContent
-                alignmentMatrix.set(y, x, best);
+                alignmentMatrix.set(i, j, best);
                 alignmentMatrix.printMatrix(originalTokenSequence, suspectTokenSequence);
             }
         }

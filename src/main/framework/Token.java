@@ -44,6 +44,6 @@ public class Token implements IToken {
 
     @Override
     public String toString() {
-        return "{" + classCode.toShort() + relativeCode + "}";
+        return "{" + classCode.toShort() + String.format("%02d", relativeCode) + "}";
     }
 }

@@ -78,11 +78,17 @@ public class AlignmentContent implements IAlignmentContent {
         if (value == Double.NEGATIVE_INFINITY) {
             sb.append("  -∞}");
         }
-        else if (value > 0) {
+        /*else if (value > 0) {
             sb.append("+" + value + "}");
+        }
+        else if (value == 0.0) {
+            sb.append("  " + value + "}");
         }
         else {
             sb.append(value + "}");
+        }*/
+        else {
+            sb.append(String.format("%+.1f", value) + "}");
         }
         return sb.toString();
     }
