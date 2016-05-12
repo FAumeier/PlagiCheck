@@ -85,6 +85,7 @@ public class Aligner implements IAligner {
 
                 // Set highest AlignmentContent
                 alignmentMatrix.set(x, y, best);
+                alignmentMatrix.printMatrix();
             }
         }
         return null;

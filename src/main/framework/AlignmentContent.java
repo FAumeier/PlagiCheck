@@ -63,7 +63,7 @@ public class AlignmentContent implements IAlignmentContent {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("AlignmentContent{");
+        final StringBuilder sb = new StringBuilder("{ ");
         sb.append("direction=").append(direction);
         sb.append(", value=").append(value);
         sb.append('}');

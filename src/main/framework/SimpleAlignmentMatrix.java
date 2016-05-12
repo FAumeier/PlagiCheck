@@ -45,4 +45,24 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
     public IAlignmentContent get(int i, int j) {
         return matrix[i][j];
     }
+
+    private void printRow(IAlignmentContent[] row) {
+        int columnCounter = 0;
+        for (IAlignmentContent i : row) {
+            System.out.print("x:" + columnCounter + i);
+            System.out.print("\t");
+            columnCounter++;
+        }
+        System.out.println();
+    }
+
+    public void printMatrix() {
+        int rowCounter = 0;
+        for(IAlignmentContent[] row : matrix) {
+            System.out.print("y: " + rowCounter + " ");
+            printRow(row);
+            rowCounter++;
+        }
+        System.out.println("\n");
+    }
 }
