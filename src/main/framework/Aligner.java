@@ -57,10 +57,6 @@ public class Aligner implements IAligner {
 
         for (int i = 1; i < m-1; i++) {   // Rows
             for (int j = 1; j < n-1; j++) {   // Columns
-                //@Fixme: this score is only the direct comparison of the tokens corresponding to the cell, but you
-                // have to calculate every one of the three ways -> Horizontal, vertical, diagonal and then pick the
-                // best one and summarize it with value from which it came from...
-
                 // Calculate diagonal movement for (X, Y)
                 IAlignmentContent diagonal = new AlignmentContent(Direction.DIAGONAL_MOVE,
                         alignmentMatrix.get(i-1, j-1).getValue()
@@ -74,11 +70,11 @@ public class Aligner implements IAligner {
 
                 // Get highest value
                 IAlignmentContent best = diagonal;
-                if (best.getValue() < vertical.getValue()) {
-                    best = vertical;
-                }
                 if (best.getValue() < horizontal.getValue()) {
                     best = horizontal;
+                }
+                if (best.getValue() < vertical.getValue()) {
+                    best = vertical;
                 }
 
                 // Set highest AlignmentContent

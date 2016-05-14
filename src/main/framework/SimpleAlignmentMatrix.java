@@ -57,19 +57,19 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
 
     public void printMatrix(ITokenSequence original, ITokenSequence suspect) {
         int rowCounter = 0;
-        System.out.print("\t\t    ");
+        System.out.print("\t\t\t\t\t\t    ");
         for (int i = 0; i < original.length(); i++) {
-            System.out.print("\t" + original.getToken(i) + "\t\t");
+            System.out.print("\t" + suspect.getToken(i) + "\t\t");
         }
         System.out.print("\n");
         int rows = -1;
         for(IAlignmentContent[] row : matrix) {
             System.out.print("y: " + rowCounter + " ");
-            if (rows >= 0 && rows < suspect.length() - 1) {
-                System.out.print(suspect.getToken(rows) + " ");;
+            if (rows >= 0 && rows < original.length() - 1) {
+                System.out.print(original.getToken(rows) + " ");;
             }
             else {
-                System.out.print("{----}\t");
+                System.out.print("      \t");
             }
 
             rows++;

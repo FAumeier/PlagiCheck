@@ -51,7 +51,7 @@ class AlignmentController {
         while (token.getClassCode() != ClassCodes.EOF);
 
 
-        IScoring scoring = new SimpleScoring(new NearMatcher());
+        IScoring scoring = new SimpleScoring(new NearMatcher(lexer));
         ISelector selector = new SimpleSelector(s1, s2);
         IRegion region = selector.getRegion();
         IAligner aligner = new Aligner(region, scoring, s1, s2);
