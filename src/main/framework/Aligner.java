@@ -66,10 +66,10 @@ public class Aligner implements IAligner {
                         alignmentMatrix.get(i-1, j-1).getValue()
                                 + scoring.getScore(originalTokenSequence.getToken(i-1), suspectTokenSequence.getToken(j-1)));
                 // Calculate vertical movement for (X, Y)
-                IAlignmentContent vertical = new AlignmentContent(Direction.VERTICAL_MOVE,
+                IAlignmentContent vertical = new AlignmentContent(Direction.HORIZONTAL_MOVE,
                         alignmentMatrix.get(i, j-1).getValue() + gapScore);
                 // Calculate horizontal movement for (X, Y)
-                IAlignmentContent horizontal = new AlignmentContent(Direction.HORIZONTAL_MOVE,
+                IAlignmentContent horizontal = new AlignmentContent(Direction.VERTICAL_MOVE,
                         alignmentMatrix.get(i-1, j).getValue() + gapScore);
 
                 // Get highest value
