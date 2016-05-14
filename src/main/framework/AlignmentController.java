@@ -33,29 +33,31 @@ class AlignmentController {
         // Token loop for first file
         ILexer lexer = new FilterLexer(new BaseLexer(inputOriginal));
         IToken token = null;
-        ITokenSequence s1 = new TokenSequence();
+        ITokenSequence originalSequence = new TokenSequence();
         do {
             token = lexer.getNextToken();
-            s1.add(token);
+            originalSequence.add(token);
         }
         while (token.getClassCode() != ClassCodes.EOF);
 
         //System.out.println(lexer.toString());
         lexer.setPushBackReader(inputSuspect);  //Change reader in Lexer to get one completed lexer for both files
         token = null;
-        ITokenSequence s2 = new TokenSequence();
+        ITokenSequence suspectSequence = new TokenSequence();
         do {
             token = lexer.getNextToken();
-            s2.add(token);;
+            suspectSequence.add(token);;
         }
         while (token.getClassCode() != ClassCodes.EOF);
 
 
         IScoring scoring = new SimpleScoring(new NearMatcher(lexer));
-        ISelector selector = new SimpleSelector(s1, s2);
+        ISelector selector = new SimpleSelector(originalSequence, suspectSequence);
         IRegion region = selector.getRegion();
-        IAligner aligner = new Aligner(region, scoring, s1, s2);
+        IAligner aligner = new Aligner(region, scoring, originalSequence, suspectSequence);
         IAlignmentMatrix matrix = aligner.forward();
+
+        matrix.printMatrix(originalSequence, suspectSequence);
 
 
 

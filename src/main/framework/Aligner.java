@@ -79,9 +79,11 @@ public class Aligner implements IAligner {
 
                 // Set highest AlignmentContent
                 alignmentMatrix.set(i, j, best);
-                alignmentMatrix.printMatrix(originalTokenSequence, suspectTokenSequence);
+
+                // Commented out, shows prints out every step of caluclating the matrix
+                //alignmentMatrix.printMatrix(originalTokenSequence, suspectTokenSequence);
             }
         }
-        return null;
+        return alignmentMatrix;
     }
 }
