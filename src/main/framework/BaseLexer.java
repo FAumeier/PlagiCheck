@@ -160,7 +160,7 @@ public class BaseLexer implements ILexer {
         this.reader = reader;
     }
 
-    public MapTokenToString getmMapTokenToString() {
+    public MapTokenToString getMapTokenToString() {
         return mMapTokenToString;
     }
 }

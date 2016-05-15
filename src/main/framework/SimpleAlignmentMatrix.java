@@ -81,4 +81,20 @@ public class SimpleAlignmentMatrix implements IAlignmentMatrix {
 
         System.out.println("\n");
     }
+
+    public IAlignmentContent[][] getMatrix() {
+        return matrix;
+    }
+
+    public void setMatrix(IAlignmentContent[][] matrix) {
+        this.matrix = matrix;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getWidth() {
+        return width;
+    }
 }
