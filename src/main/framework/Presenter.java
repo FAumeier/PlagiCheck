@@ -54,6 +54,12 @@ public class Presenter implements IPresenter {
                 case HORIZONTAL_MOVE:
                     break;
                 case VERTICAL_MOVE:
+                    input1 = lexer.decode(s1.getToken(i - 1));
+                    tokenOutput1.append(reverseSring(input1));
+                    StringBuilder minusString = produceMinusString(input1.length());
+                    tokenOutput2.append(minusString);
+                    tokenConsensus.append(minusString);
+                    i = i - 1;
                     break;
             }
         }
@@ -90,5 +96,13 @@ public class Presenter implements IPresenter {
         }
         String ouput = stringBuilder.toString();
         return ouput;
+    }
+
+    private StringBuilder produceMinusString(int length) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            stringBuilder.append("-");
+        }
+        return stringBuilder;
     }
 }
