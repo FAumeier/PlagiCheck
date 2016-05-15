@@ -59,6 +59,9 @@ class AlignmentController {
 
         matrix.printMatrix(originalSequence, suspectSequence);
 
+        IPresenter presenter = new Presenter(originalSequence, suspectSequence, lexer, matrix, scoring);
+        System.out.println(presenter.backward());
+
 
 
     }
