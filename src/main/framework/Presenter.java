@@ -52,18 +52,27 @@ public class Presenter implements IPresenter {
                     j = j - 1;
                     break;
                 case HORIZONTAL_MOVE:
+                    input2 = lexer.decode(s2.getToken(j - 1));
+                    tokenOutput2.append(reverseSring(input2));
+                    StringBuilder minusString = produceMinusString(input2.length());
+                    tokenOutput1.append(minusString);
+                    tokenConsensus.append(minusString);
+                    j = j - 1;
                     break;
                 case VERTICAL_MOVE:
                     input1 = lexer.decode(s1.getToken(i - 1));
                     tokenOutput1.append(reverseSring(input1));
-                    StringBuilder minusString = produceMinusString(input1.length());
+                    minusString = produceMinusString(input1.length());
                     tokenOutput2.append(minusString);
                     tokenConsensus.append(minusString);
                     i = i - 1;
                     break;
             }
         }
-        return null;
+        tokenOutput1.reverse();
+        tokenOutput2.reverse();
+        tokenConsensus.reverse();
+        return "\n" + tokenOutput1 + "\n" + tokenConsensus + "\n" + tokenOutput2;
     }
 
     @Override
