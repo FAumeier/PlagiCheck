@@ -40,17 +40,23 @@ public class Presenter implements IPresenter {
                         delta = lengthOfInput1 - lengthOfInput2;
                         max = lengthOfInput1;
                         input2 = normalizeStrings(input2, delta);
-                    } else if (lengthOfInput2 > lengthOfInput1) {
+                    }
+                    else if (lengthOfInput2 > lengthOfInput1) {
                         delta = lengthOfInput2 - lengthOfInput1;
                         max = lengthOfInput2;
                         input1 = normalizeStrings(input1, delta);
                     }
                     tokenOutput1.append(reverseSring(input1)); //Wird reversed eingetragen da der String nicht vorangestellt werden kann. Am Ende wird der ganze Output reversed.
                     tokenOutput2.append(reverseSring(input2)); //Stelle das Resultat aus input2 vor den aktuellen TokenOutput2
-                    if (score.isPerfect(Math.round(matrix.get(i, j).getValue() - matrix.get(i-1, j-1).getValue()))) { //Prüfe matrix.get(i,j) mit Hilfe von score.isPerfect()
+                    double diff = matrix.get(i, j).getValue() - matrix.get(i-1, j-1).getValue();
+                    if (score.isPerfect(Math.round(diff * 100000 ) / 100000)) { //Prüfe matrix.get(i,j) mit Hilfe von score.isPerfect()
                         tokenConsensus.append(input1); //Resultat aus input1 vor den aktuellen Consensus
-                    } else {
-                        tokenConsensus.append(producePlusString(max)); // Produziere einen String "++++" mit länge max und hänge ihn vor den aktuellen Consensus
+                    }
+                    else if (score.isNearMatch(diff)) {
+                        tokenConsensus.append(produceString(max, "*")); // Produziere einen String "****" mit länge max und hänge ihn vor den aktuellen Consensus
+                    }
+                    else {
+                        tokenConsensus.append(produceString(max, "+")); // Produziere einen String "++++" mit länge max und hänge ihn vor den aktuellen Consensus
                     }
                     i = i - 1;
                     j = j - 1;
@@ -58,17 +64,17 @@ public class Presenter implements IPresenter {
                 case HORIZONTAL_MOVE:
                     input2 = lexer.decode(s2.getToken(j - 1)); //hole token aus input2
                     tokenOutput2.append(reverseSring(input2)); //stelle das resultat aus input2 vor den aktuellen tokenconsensus
-                    StringBuilder minusString = produceMinusString(input2.length()); //produziere einen String mit bindestrichen gleicher länge
-                    tokenOutput1.append(minusString); //Stelle den BindestrichString vor den aktuellen tokenOuput1
-                    tokenConsensus.append(minusString); //Stelle den BindestrichString vor den aktuellen TokenConsensus
+                    String minusStr1 = produceMinusString(input2.length()); //produziere einen String mit bindestrichen gleicher länge
+                    tokenOutput1.append(minusStr1); //Stelle den BindestrichString vor den aktuellen tokenOuput1
+                    tokenConsensus.append(minusStr1); //Stelle den BindestrichString vor den aktuellen TokenConsensus
                     j = j - 1;
                     break;
                 case VERTICAL_MOVE:
                     input1 = lexer.decode(s1.getToken(i - 1));
                     tokenOutput1.append(reverseSring(input1));
-                    minusString = produceMinusString(input1.length());
-                    tokenOutput2.append(minusString);
-                    tokenConsensus.append(minusString);
+                    String minusStr2 = produceMinusString(input1.length());
+                    tokenOutput2.append(minusStr2);
+                    tokenConsensus.append(minusStr2);
                     i = i - 1;
                     break;
             }
@@ -105,19 +111,22 @@ public class Presenter implements IPresenter {
     }
 
     private String producePlusString(int length) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i <= length; i++) { //FIXME: Maybe produces more + then needed
-            stringBuilder.append("+");
-        }
-        String ouput = stringBuilder.toString();
-        return ouput;
+        return produceString(length, "+");
     }
 
-    private StringBuilder produceMinusString(int length) {
+    private String produceMinusString(int length) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < length; i++) {
             stringBuilder.append("-");
         }
-        return stringBuilder;
+        return stringBuilder.toString();
+    }
+
+    private String produceString(int length, String sign) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i <= length; i++) { //FIXME: Maybe produces more then needed
+            stringBuilder.append(sign);
+        }
+        return stringBuilder.toString();
     }
 }
