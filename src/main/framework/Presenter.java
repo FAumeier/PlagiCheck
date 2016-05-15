@@ -47,8 +47,8 @@ public class Presenter implements IPresenter {
                     }
                     tokenOutput1.append(reverseSring(input1)); //Wird reversed eingetragen da der String nicht vorangestellt werden kann. Am Ende wird der ganze Output reversed.
                     tokenOutput2.append(reverseSring(input2)); //Stelle das Resultat aus input2 vor den aktuellen TokenOutput2
-                    if (score.isPerfect(matrix.get(i, j).getValue())) { //Prüfe matrix.get(i,j) mit Hilfe von score.isPerfect()
-                        tokenConsensus.append(tokenOutput1); //Resultat aus input1 vor den aktuellen Consensus
+                    if (score.isPerfect(Math.round(matrix.get(i, j).getValue() - matrix.get(i-1, j-1).getValue()))) { //Prüfe matrix.get(i,j) mit Hilfe von score.isPerfect()
+                        tokenConsensus.append(input1); //Resultat aus input1 vor den aktuellen Consensus
                     } else {
                         tokenConsensus.append(producePlusString(max)); // Produziere einen String "++++" mit länge max und hänge ihn vor den aktuellen Consensus
                     }
@@ -76,7 +76,7 @@ public class Presenter implements IPresenter {
         tokenOutput1.reverse(); //Hier werden die Strings nun endgültig gedreht um sie in die richtige Reihenfolge zu bringen.
         tokenOutput2.reverse();
         tokenConsensus.reverse();
-        return "\n" + "Original: " + tokenOutput1 + "\n" + "Consensus: " + tokenConsensus + "\n" + "Suspect: " + tokenOutput2;
+        return "\n" + "Original: \t" + tokenOutput1 + "\n" + "Consensus: \t" + tokenConsensus + "\n" + "Suspect: \t" + tokenOutput2;
     }
 
     @Override
