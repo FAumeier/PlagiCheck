@@ -72,7 +72,7 @@ public class AlignmentContent implements IAlignmentContent {
                 sb.append("→ ");
                 break;
             case VERTICAL_MOVE:
-                sb.append("↓ ");
+                sb.append("↓  ");
                 break;
         }
         if (value == Double.NEGATIVE_INFINITY) {
