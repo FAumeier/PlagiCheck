@@ -31,7 +31,8 @@ class AlignmentController {
         PushbackReader inputSuspect = new PushbackReader(readerSuspect, 4);
 
         // Token loop for first file
-        ILexer lexer = new FilterLexer(new BaseLexer(inputOriginal));
+        //ILexer lexer = new FilterLexer(new BaseLexer(inputOriginal));
+        ILexer lexer = new BaseLexer(inputOriginal);
         IToken token = null;
         ITokenSequence originalSequence = new TokenSequence();
         do {
@@ -60,7 +61,11 @@ class AlignmentController {
         matrix.printMatrix(originalSequence, suspectSequence);
 
         IPresenter presenter = new Presenter(originalSequence, suspectSequence, lexer, matrix, scoring);
-        System.out.println(presenter.threeColumnOutput());
+
+        System.out.println(presenter.backward(true) + "\n");
+        System.out.println(presenter.backward(false) + "\n");
+
+        System.out.println(presenter.threeColumnOutput(true));
 
 
 
