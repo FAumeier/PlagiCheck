@@ -21,4 +21,9 @@ public class NearMatcher implements INearMatcher {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "{Only NearMatches P=B}";
+    }
 }

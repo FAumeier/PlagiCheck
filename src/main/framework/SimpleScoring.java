@@ -11,6 +11,12 @@ public class SimpleScoring implements IScoring {
 
     private final INearMatcher nearMatcher;
 
+    @Override
+    public String toString() {
+        return String.format("{SimpleScoring: Perfect Score: %f MismatchScore: %f nearMatchScore: %f gapScore: %f " +
+                "NearMatcher: %s}", perfectScore, mismatchScore, nearMatchScore, gapScore, nearMatcher);
+    }
+
     public SimpleScoring(INearMatcher nearMatcher) {
         this.nearMatcher = nearMatcher;
     }
