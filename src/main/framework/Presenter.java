@@ -29,7 +29,7 @@ public class Presenter implements IPresenter {
 
     @Override
     public String threeColumnOutput(boolean decodeTokens) {
-        int width = 20;
+        int width = 40;
         if (width < 10) { //Will nicht jeden kleinen Fall programmieren. Breite wird immer größer gleich 10 sein
             width = 10;
         }
@@ -73,18 +73,24 @@ public class Presenter implements IPresenter {
 
         int i = matrix.getLength() - 1; //Die Breite sind die Reihen; -1 da die Matrix um 1 größer als die sequenz ist.
         int j = matrix.getWidth() - 1; //Die Länge die Spalten
+        int currentS1 = s1.length() - 2;
+        int currentS2 = s2.length() - 2;
+        String input1, input2;
+
         while (i != 0 && j != 0) {
             switch (matrix.get(i, j).getDirection()) {
-
                 case DIAGONAL_MOVE:
-                    String input1, input2;
                     if (decodeTokens) {
                         input1 = lexer.decode(s1.getToken(i - 1)); //Hole beide Token
                         input2 = lexer.decode(s2.getToken(j - 1));
+                        currentS1--;
+                        currentS2--;
                     }
                     else {
                         input1 = s1.getToken(i - 1).toString();
                         input2 = s2.getToken(j - 1).toString();
+                        currentS1--;
+                        currentS2--;
                     }
                     int lengthOfInput1 = input1.length();
                     int lengthOfInput2 = input2.length();
@@ -123,9 +129,11 @@ public class Presenter implements IPresenter {
                 case HORIZONTAL_MOVE:
                     if (decodeTokens) {
                         input2 = lexer.decode(s2.getToken(j - 1)); //hole token aus input2
+                        currentS2--;
                     }
                     else {
                         input2 = s2.getToken(j - 1).toString();
+                        currentS2--;
                     }
                     tokenOutput2.append(reverseString(input2)); //stelle das resultat aus input2 vor den aktuellen tokenconsensus
                     String minusStr1 = produceString(input2.length(), "-"); //produziere einen String mit bindestrichen gleicher länge
@@ -136,9 +144,11 @@ public class Presenter implements IPresenter {
                 case VERTICAL_MOVE:
                     if (decodeTokens) {
                         input1 = lexer.decode(s1.getToken(i - 1));
+                        currentS1--;
                     }
                     else {
                         input1 = s1.getToken(i - 1).toString();
+                        currentS1--;
                     }
                     tokenOutput1.append(reverseString(input1));
                     String minusStr2 = produceString(input1.length(), "-");
@@ -147,6 +157,36 @@ public class Presenter implements IPresenter {
                     i = i - 1;
                     break;
             }
+        }
+
+        //Hänge verbleibende Tokens
+        while (currentS1 >= 0) {
+            if (decodeTokens) {
+                input1 = lexer.decode(s1.getToken(currentS1)); //hole token aus input2
+            }
+            else {
+                input1 = s1.getToken(currentS1).toString();
+            }
+            currentS1--;
+
+            tokenOutput1.append(reverseString(input1));
+            String minus = produceString(input1.length(), "-");
+            tokenOutput2.append(minus);
+            tokenConsensus.append(minus);
+        }
+        while (currentS2 >= 0) {
+            if (decodeTokens) {
+                input2 = lexer.decode(s2.getToken(currentS2)); //hole token aus input2
+            }
+            else {
+                input2 = s2.getToken(currentS2).toString();
+            }
+            currentS2--;
+
+            tokenOutput2.append(reverseString(input2));
+            String minus = produceString(input2.length(), "-");
+            tokenOutput1.append(minus);
+            tokenConsensus.append(minus);
         }
 
 
