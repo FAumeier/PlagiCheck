@@ -7,7 +7,7 @@ public class SimpleScoring implements IScoring {
     private static double perfectScore      = 1.0;
     private static double mismatchScore     = 0.0;
     private static double nearMatchScore    = 0.5;
-    private static double gapScore = -0.1;
+    private static double gapScore          = -0.1;
 
     private final INearMatcher nearMatcher;
 

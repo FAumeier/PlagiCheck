@@ -50,7 +50,7 @@ public class Presenter implements IPresenter {
         /*if (widthInLength == 1) { //Damit falls abgerundet wird sicher noch das letzte zeichen mitgenommen wird. Wenns aufgeht wird eine Zeile zuviel gezeichnet
             widthInLength++;
         }*/
-        for (int i = 0; i < widthInLength; i++) {
+        for (int i = 0; i <= widthInLength; i++) {
             // Formatierte Ausgabe aller 3 Spalten
             output.append(String.format("%-" + width + "s|%-" + width + "s|%-" + width + "s\n",
                     tokenOutput1.subSequence(begin, end),

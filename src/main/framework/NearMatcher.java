@@ -19,11 +19,14 @@ public class NearMatcher implements INearMatcher {
                 || (tok1.equals("P") && tok2.equals("B"))) {
             return true;
         }
+        if (tk1.getClassCode() == ClassCodes.WS && tk2.getClassCode() == ClassCodes.WS) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public String toString() {
-        return "{Only NearMatches P=B}";
+        return "{Only NearMatches P=B and Whitespaces}";
     }
 }
