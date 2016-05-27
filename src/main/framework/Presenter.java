@@ -53,9 +53,9 @@ public class Presenter implements IPresenter {
         for (int i = 0; i <= widthInLength; i++) {
             // Formatierte Ausgabe aller 3 Spalten
             output.append(String.format("%-" + width + "s|%-" + width + "s|%-" + width + "s\n",
-                    tokenOutput1.subSequence(begin, end),
-                    tokenConsensus.subSequence(begin, end),
-                    tokenOutput2.subSequence(begin, end)));
+                    tokenOutput1.subSequence(begin, end).toString().replace("\n", "").replace("\r", ""),
+                    tokenConsensus.subSequence(begin, end).toString().replace("\n", "").replace("\r", ""),
+                    tokenOutput2.subSequence(begin, end).toString().replace("\n", "").replace("\r", "")));
 
             begin = end;
             end = end + width;
