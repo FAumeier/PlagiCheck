@@ -23,12 +23,12 @@ class AlignmentController {
         // Read first file
         InputStream isStreamOriginal = new FileInputStream(original);
         Reader readerOriginal = new InputStreamReader(isStreamOriginal, "UTF-8");
-        PushbackReader inputOriginal = new PushbackReader(readerOriginal, 4);
+        PushbackReader inputOriginal = new PushbackReader(readerOriginal, 10);
 
         // Read second file
         InputStream isStreamSuspect = new FileInputStream(suspect);
         Reader readerSuspect = new InputStreamReader(isStreamSuspect, "UTF-8");
-        PushbackReader inputSuspect = new PushbackReader(readerSuspect, 4);
+        PushbackReader inputSuspect = new PushbackReader(readerSuspect, 10);
 
         // Token loop for first file
         //ILexer lexer = new FilterLexer(new BaseLexer(inputOriginal));
@@ -37,7 +37,9 @@ class AlignmentController {
         ITokenSequence originalSequence = new TokenSequence();
         do {
             token = lexer.getNextToken();
-            originalSequence.add(token);
+            if (token.getClassCode() != ClassCodes.ERROR) {
+                originalSequence.add(token);
+            }
         }
         while (token.getClassCode() != ClassCodes.EOF);
 
@@ -45,9 +47,13 @@ class AlignmentController {
         lexer.setPushBackReader(inputSuspect);  //Change reader in Lexer to get one completed lexer for both files
         token = null;
         ITokenSequence suspectSequence = new TokenSequence();
+        int test = 0;
         do {
             token = lexer.getNextToken();
-            suspectSequence.add(token);;
+            if (token.getClassCode() != ClassCodes.ERROR) {
+                suspectSequence.add(token);
+            }
+            test++;
         }
         while (token.getClassCode() != ClassCodes.EOF);
 
